@@ -3,13 +3,10 @@ import Alphabet from "./Alphabet";
 const VigenereCipher = {
   encrypt: (text: string, key: string) => {
     key = key.split(" ").join("");
+    const textWithoutSpace = text.split(" ").join("");
     let result = "";
-    for (let i = 0; i < text.length; i++) {
-      if (text[i] === " ") {
-        result += " ";
-        continue;
-      }
-      const char = text[i].toLowerCase();
+    for (let i = 0; i < textWithoutSpace.length; i++) {
+      const char = textWithoutSpace[i].toLowerCase();
       const keyChar = key[i % key.length].toLowerCase();
       const charIndex = Alphabet.indexOf(char);
       const keyIndex = Alphabet.indexOf(keyChar);
@@ -20,18 +17,20 @@ const VigenereCipher = {
   },
   decrypt: (text: string, key: string) => {
     key = key.split(" ").join("");
+    const textWithoutSpace = text.split(" ").join("");
     let result = "";
-    for (let i = 0; i < text.length; i++) {
-      if (text[i] === " ") {
+    for (let i = 0; i < textWithoutSpace.length; i++) {
+      if (textWithoutSpace[i] === " ") {
         result += " ";
         continue;
+      } else {
+        const char = textWithoutSpace[i].toLowerCase();
+        const keyChar = key[i % key.length].toLowerCase();
+        const charIndex = Alphabet.indexOf(char);
+        const keyCharIndex = Alphabet.indexOf(keyChar);
+        const decryptedCharIndex = (charIndex - keyCharIndex + 26) % 26;
+        result += Alphabet[decryptedCharIndex];
       }
-      const char = text[i].toLowerCase();
-      const keyChar = key[i % key.length].toLowerCase();
-      const charIndex = Alphabet.indexOf(char);
-      const keyCharIndex = Alphabet.indexOf(keyChar);
-      const decryptedCharIndex = (charIndex - keyCharIndex + 26) % 26;
-      result += Alphabet[decryptedCharIndex];
     }
     return result;
   },
