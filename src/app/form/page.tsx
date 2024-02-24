@@ -3,7 +3,7 @@
 import { ChangeEvent, useState } from "react";
 import VigenereCipher from "../../utils/VigenereCipher";
 import PlayFair, { generateMatrix } from "../../utils/PlayFair";
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar";
 
 interface formDataTypes {
   inputType: number;
