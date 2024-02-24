@@ -1,23 +1,33 @@
 "use client";
 
 import React, { useState } from "react";
+import VigenereCipher from "../../utils/VigenereCipher";
 
 const TestFileInput = () => {
   const [file, setFile] = useState<File | null>(null);
-  console.log(file);
 
+  const handleFileRead = async (e: ProgressEvent<FileReader>) => {
+    const content = e.target?.result;
+    const text = (content as string)
+      .split(/["\n"" "]/)
+      .join("")
+      .split(" ")
+      .join("");
+    console.log(VigenereCipher.encrypt(text, "abc"));
+  };
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+      const reader = new FileReader();
+      reader.onloadend = handleFileRead;
+    }
+  };
   return (
     <div className="h-screen w-screen flex items-center justify-center">
       <div className="w-1/2 flex flex-col justify-center">
         <label>File Input</label>
-        <input
-          type="file"
-          onChange={(e) => {
-            if (e.target.files) {
-              setFile(e.target.files[0]);
-            }
-          }}
-        />
+        <input type="file" accept=".txt" onChange={handleFileChange} />
       </div>
     </div>
   );
