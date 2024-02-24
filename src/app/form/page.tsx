@@ -3,7 +3,7 @@
 import { ChangeEvent, useState } from "react";
 import VigenereCipher from "../../utils/VigenereCipher";
 import PlayFair, { generateMatrix } from "../../utils/PlayFair";
-import NavBar from "../components/navbar";
+import Navbar from "../components/Navbar";
 
 interface formDataTypes {
   inputType: number;
@@ -60,7 +60,7 @@ const Form = () => {
   };
   return (
     <div>
-      <NavBar />
+      <Navbar />
       <div className="w-full min-h-screen flex flex-col items-center justify-center bg-[#fcf6e0] pt-24">
         <div className="w-full bg-[#b7e8cb] my-8">
           <div className="mx-auto w-60">
