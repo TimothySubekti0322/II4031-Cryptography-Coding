@@ -3,6 +3,7 @@
 import { useState } from "react";
 import VigenereCipher from "../../utils/VigenereCipher";
 import PlayFair, { generateMatrix } from "../../utils/PlayFair";
+import ProductCipher from "../../utils/ProductCipher";
 
 const Form = () => {
   //   console.log(
@@ -11,7 +12,16 @@ const Form = () => {
   //   console.log(
   //     PlayFair.decrypt("ZB RSFYKUPGL GRKVSNLQV", "ALNGESHPUBCDFIKMOQRTVWXYZ")
   //   );
-  
+
+  // console.log(
+  //   "Encrypt : ",
+  //   ProductCipher.encyrpt("temui ibu nanti malam", "cipher")
+  // );
+  // console.log(
+  //   "Decrypt : ",
+  //   ProductCipher.decrypt("vdkmrebhsmcubcpzkd", "cipher")
+  // );
+
   const [input, setInput] = useState("");
   const [key, setKey] = useState("");
   const [output, setOutput] = useState("");
