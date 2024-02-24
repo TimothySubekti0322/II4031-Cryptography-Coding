@@ -3,6 +3,9 @@
 import { ChangeEvent, useState } from "react";
 import VigenereCipher from "../../utils/VigenereCipher";
 import PlayFair, { generateMatrix } from "../../utils/PlayFair";
+
+import ProductCipher from "../../utils/ProductCipher";
+
 import Navbar from "../components/Navbar";
 
 interface formDataTypes {
@@ -13,6 +16,7 @@ interface formDataTypes {
   key: string;
 }
 
+
 const Form = () => {
   //   console.log(
   //     PlayFair.encrypt("temui ibu nanti malam", "ALNGESHPUBCDFIKMOQRTVWXYZ")
@@ -20,6 +24,14 @@ const Form = () => {
   //   console.log(
   //     PlayFair.decrypt("ZB RSFYKUPGL GRKVSNLQV", "ALNGESHPUBCDFIKMOQRTVWXYZ")
   //   );
+  // console.log(
+  //   "Encrypt : ",
+  //   ProductCipher.encyrpt("temui ibu nanti malam", "cipher")
+  // );
+  // console.log(
+  //   "Decrypt : ",
+  //   ProductCipher.decrypt("vdkmrebhsmcubcpzkd", "cipher")
+  // );
 
   const [input, setInput] = useState("");
   const [key, setKey] = useState("");
