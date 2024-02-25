@@ -1,4 +1,5 @@
 import Alphabet from "./Alphabet";
+import CleansingAlphabet from "./CleansingAlphabet";
 
 const removeDuplicates = (str: string): string => {
   return str
@@ -118,8 +119,11 @@ const decryptPair = (matrix: string[][], first: number[], second: number[]) => {
 
 const PlayFair = {
   encrypt: (plainteks: string, key: string) => {
-    let teks = plainteks.split(" ").join("").toLowerCase();
-    const matrix = generateMatrix(key);
+    let teks = CleansingAlphabet(plainteks.split(" ").join("").toLowerCase());
+    const formatedKey = CleansingAlphabet(key.split(" ").join(""));
+    console.log(teks);
+    console.log(formatedKey);
+    const matrix = generateMatrix(formatedKey);
     const bigram = createPairs(teks);
     for (let i = 0; i < bigram.length; i += 2) {
       const first = bigram[i];
@@ -134,8 +138,9 @@ const PlayFair = {
     return result;
   },
   decrypt: (cipherteks: string, key: string) => {
-    let teks = cipherteks.split(" ").join("").toLowerCase();
-    const matrix = generateMatrix(key);
+    let teks = CleansingAlphabet(cipherteks.split(" ").join("").toLowerCase());
+    const formatedKey = CleansingAlphabet(key.split(" ").join(""));
+    const matrix = generateMatrix(formatedKey);
     const bigram = createPairs(teks);
     for (let i = 0; i < bigram.length; i += 2) {
       const first = bigram[i];

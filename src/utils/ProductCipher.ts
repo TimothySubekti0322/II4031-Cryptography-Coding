@@ -1,3 +1,4 @@
+import CleansingAlphabet from "./CleansingAlphabet";
 import VigenereCipher from "./VigenereCipher";
 
 // --------------------------ENCRYPT-------------------------- //
@@ -101,23 +102,35 @@ const ProductCipher = {
     console.log(vigenereCipherText);
     // const formatedInput = input.split(" ").join("");
     const formatedInput = vigenereCipherText.split(" ").join("");
+
+    // Trim key
+    let formatedKey = CleansingAlphabet(key.split(" ").join(""));
+    if (formatedKey.length > formatedInput.length) {
+      formatedKey = formatedKey.slice(0, formatedInput.length);
+    }
+
     const matrix = fillMatriks(
       formatedInput,
-      initEmptyMatriks(formatedInput, key)
+      initEmptyMatriks(formatedInput, formatedKey)
     );
     console.log(matrix);
-    const Result = tranposeMatriksResult(matrix, key);
+    const Result = tranposeMatriksResult(matrix, formatedKey);
     return Result;
   },
   decrypt: (input: string, key: string) => {
     const formatedInput = input.split(" ").join("");
+    // Trim key
+    let formatedKey = CleansingAlphabet(key.split(" ").join(""));
+    if (formatedKey.length > formatedInput.length) {
+      formatedKey = formatedKey.slice(0, formatedInput.length);
+    }
     const matrix = fillMatriks(
       formatedInput,
-      initEmptyMatriksDecrypt(formatedInput, key)
+      initEmptyMatriksDecrypt(formatedInput, formatedKey)
     );
-    console.log(fillMatriksDecrypt(formatedInput, matrix, key));
+    console.log(fillMatriksDecrypt(formatedInput, matrix, formatedKey));
     const Result = tranposeMatriksResultDecrypt(matrix);
-    const vigenereCipherText = VigenereCipher.decrypt(Result, key);
+    const vigenereCipherText = VigenereCipher.decrypt(Result, formatedKey);
     return vigenereCipherText;
   },
 };
