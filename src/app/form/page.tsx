@@ -106,7 +106,6 @@ const Form = () => {
   const downloadTxtFile = () => {
     if (output == "") {
       toast.error("There is no output to download!");
-      return;
     } else {
       const element = document.createElement("a");
       const file = new Blob([output], {
