@@ -86,7 +86,7 @@ export default function Home() {
             <p className="font-semibold text-lg -mt-16 sm:mt-0">18221059</p>
             <div className="relative w-full items-center justify-center flex">
               <Image
-                src="/img/timothy.jpg"
+                src="/img/nadira.png"
                 alt="timothy"
                 width={200}
                 height={200}

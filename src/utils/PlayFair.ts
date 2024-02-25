@@ -130,7 +130,8 @@ const PlayFair = {
       bigram[i] = encryptedPair[0];
       bigram[i + 1] = encryptedPair[1];
     }
-    return bigram;
+    const result = bigram.join("");
+    return result;
   },
   decrypt: (cipherteks: string, key: string) => {
     let teks = cipherteks.split(" ").join("").toLowerCase();
@@ -145,7 +146,8 @@ const PlayFair = {
       bigram[i] = decryptedPair[0];
       bigram[i + 1] = decryptedPair[1];
     }
-    return bigram;
+    const result = bigram.join("");
+    return result;
   },
 };
 
