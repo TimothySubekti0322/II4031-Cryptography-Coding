@@ -96,7 +96,7 @@ const tranposeMatriksResultDecrypt = (matrix: string[][]): string => {
 };
 
 const ProductCipher = {
-  encyrpt: (input: string, key: string) => {
+  encrypt: (input: string, key: string) => {
     const vigenereCipherText = VigenereCipher.encrypt(input, key);
     console.log(vigenereCipherText);
     // const formatedInput = input.split(" ").join("");

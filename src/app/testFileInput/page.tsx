@@ -21,6 +21,7 @@ const TestFileInput = () => {
       setFile(e.target.files[0]);
       const reader = new FileReader();
       reader.onloadend = handleFileRead;
+      reader.readAsText(e.target.files[0]);
     }
   };
   return (
