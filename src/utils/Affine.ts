@@ -1,25 +1,34 @@
 
 const modInv = (m: number, a:number): number => {
-    let t = 0; let tempT = 1;
-    let r = m; let tempR = a;
+    let t = 0; let nextT = 1;
+    let r = a; let nextR = m;
 
-    while (tempR !== 0) {
-      let quotient = Math.floor(r/tempR);
-      t = tempT;
-      tempT = t - (quotient*tempT);
-      r = tempR;
-      tempR = r - (quotient*tempR);
+    while (nextR !== 0) {
+      let quotient = Math.floor(r/nextR);
+      let tempT = t;
+      t = nextT;
+      nextT = tempT - (quotient*nextT);
+      let tempR = r;
+      r = nextR;
+      nextR = tempR - (quotient*nextR);
+      console.log (quotient, t, nextT, r, nextR);
     }
 
     if (r > 1) {
       return -1;
     } 
-    
-    return t + m;
+    if(t<0){
+      t += m
+    }
+    return t;
 }
 
 const AffineCipher = {
   encrypt: (text: string, multiplier: number, b: number) => {
+    if (modInv(multiplier, 26) ===-1){
+      return "";
+    };
+
     let result = "";
     for (let i = 0; i < text.length; i++) {
         let ascValue = text[i].charCodeAt(0);
@@ -42,13 +51,14 @@ const AffineCipher = {
   },
 
   decrypt: (text: string, multiplier: number, b: number) => {
+    const invMod = modInv(multiplier, 26);
+    if (invMod ===-1){
+      return "";
+    };
     let result = "";
-
-
     for (let i = 0; i < text.length; i++) {
         let ascValue = text[i].charCodeAt(0);
         let ascRet;
-        let invMod = modInv(multiplier, 26);
 
         if (ascValue<91 && ascValue > 64){
             ascValue -= 65;

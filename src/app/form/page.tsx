@@ -8,6 +8,9 @@ import Navbar from "../components/Navbar";
 import encode from "../../utils/encode";
 import decode from "../../utils/decode";
 import { Toaster, toast } from "react-hot-toast";
+import AutoKeyVigenere from "@/utils/AutoKeyVigenere";
+import AffineCipher from "@/utils/Affine";
+import Affine from "@/utils/Affine";
 
 interface formDataTypes {
   inputType: string;
@@ -32,6 +35,23 @@ const Form = () => {
   //   "Decrypt : ",
   //   ProductCipher.decrypt("vdkmrebhsmcubcpzkd", "cipher")
   // );
+  // console.log(
+  //   "Encrypt: ",
+  //   AutoKeyVigenere.encrypt("abcdefghi", "aza")
+  // );
+  // console.log(
+  //   "Decrypt: ",
+  //   AutoKeyVigenere.decrypt("aacdfhjln", "aza")
+  // );
+  // console.log(
+  //   "Encrypt: ",
+  //   Affine.encrypt("abcdefghi", 3, 4)
+  // );
+  // console.log(
+  //   "Decrypt: ",
+  //   Affine.decrypt("ehknqtwzc", 3, 4)
+  // );
+
 
   // input
   const [input, setInput] = useState("");
