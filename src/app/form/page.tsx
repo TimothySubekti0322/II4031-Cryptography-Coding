@@ -137,9 +137,6 @@ const Form = () => {
                 </button>
               </div>
 
-              <div>
-                <p className="text-white text-lg">Output : {output}</p>
-              </div>
             </div>
           </form>
         </div>
