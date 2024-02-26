@@ -11,7 +11,6 @@ const modInv = (m: number, a:number): number => {
       let tempR = r;
       r = nextR;
       nextR = tempR - (quotient*nextR);
-      console.log (quotient, t, nextT, r, nextR);
     }
 
     if (r > 1) {
@@ -25,6 +24,7 @@ const modInv = (m: number, a:number): number => {
 
 const AffineCipher = {
   encrypt: (text: string, multiplier: number, b: number) => {
+    text = text.split(" ").join("");
     if (modInv(multiplier, 26) ===-1){
       return "";
     };
@@ -51,6 +51,7 @@ const AffineCipher = {
   },
 
   decrypt: (text: string, multiplier: number, b: number) => {
+    text = text.split(" ").join("");
     const invMod = modInv(multiplier, 26);
     if (invMod ===-1){
       return "";

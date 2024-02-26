@@ -21,15 +21,15 @@ interface formDataTypes {
 }
 
 const Form = () => {
-  //   console.log(
-  //     PlayFair.encrypt("temui ibu nanti malam", "ALNGESHPUBCDFIKMOQRTVWXYZ")
-  //   );
+    // console.log(
+    //   PlayFair.encrypt("temu<!i ibu nanti malam", "ALNGESHPUBCDFIKMOQRTVWXYZ")
+    // );
   //   console.log(
   //     PlayFair.decrypt("ZB RSFYKUPGL GRKVSNLQV", "ALNGESHPUBCDFIKMOQRTVWXYZ")
   //   );
   // console.log(
   //   "Encrypt : ",
-  //   ProductCipher.encyrpt("temui ibu nanti malam", "cipher")
+  //   ProductCipher.encrypt("temui<! ibu nanti malam", "cipher")
   // );
   // console.log(
   //   "Decrypt : ",
@@ -37,15 +37,15 @@ const Form = () => {
   // );
   // console.log(
   //   "Encrypt: ",
-  //   AutoKeyVigenere.encrypt("abcdefghi", "aza")
+  //   AutoKeyVigenere.encrypt("a,b c!defghi", "aza!!")
   // );
   // console.log(
   //   "Decrypt: ",
-  //   AutoKeyVigenere.decrypt("aacdfhjln", "aza")
+  //   AutoKeyVigenere.decrypt("aacdfhjln", "az!!a")
   // );
   // console.log(
   //   "Encrypt: ",
-  //   Affine.encrypt("abcdefghi", 3, 4)
+  //   Affine.encrypt("abcd, !efghi", 3, 4)
   // );
   // console.log(
   //   "Decrypt: ",
