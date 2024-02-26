@@ -11,6 +11,7 @@ import { Toaster, toast } from "react-hot-toast";
 import AutoKeyVigenere from "@/utils/AutoKeyVigenere";
 import AffineCipher from "@/utils/Affine";
 import Affine from "@/utils/Affine";
+import ExtendedVigenere from "@/utils/ExtendedVigenere";
 
 interface formDataTypes {
   inputType: string;
@@ -51,7 +52,14 @@ const Form = () => {
   //   "Decrypt: ",
   //   Affine.decrypt("ehknqtwzc", 3, 4)
   // );
-
+  // console.log(
+  //   "Encrypt: ",
+  //   ExtendedVigenere.encrypt("abcd, !efghi", "!abc")
+  // );
+  // console.log(
+  //   "Decrypt: ",
+  //   ExtendedVigenere.decrypt("ÃÅÇÉÎ", "!abc")
+  // );
 
   // input
   const [input, setInput] = useState("");
