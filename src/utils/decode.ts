@@ -22,6 +22,7 @@ const decode = (
       const result = VigenereCipher.decrypt(inputText, key);
       console.log(result);
       setOutput(result);
+      setOutput64(btoa(result));
     }
     // Playfair Cipher - Text
     else if (cipher === "Playfair Cipher") {
@@ -29,6 +30,7 @@ const decode = (
       const result = PlayFair.decrypt(inputText, key);
       console.log(result);
       setOutput(result);
+      setOutput64(btoa(result));
     }
     // Product Cipher - Text
     else if (cipher === "Product Cipher") {
@@ -36,6 +38,7 @@ const decode = (
       const result = ProductCipher.decrypt(inputText, key);
       console.log(result);
       setOutput(result);
+      setOutput64(btoa(result));
     }
     // Affine Cipher - Text
     else if (cipher === "Affine Cipher") {
@@ -45,6 +48,7 @@ const decode = (
       const result = Affine.decrypt(inputText, intMultiplier, intKey);
       console.log(result);
       setOutput(result);
+      setOutput64(btoa(result));
     }
     // AutoKey Vigenere Cipher - Text
     else if (cipher === "Autokey Vigenere Cipher") {
@@ -52,6 +56,7 @@ const decode = (
       const result = AutoKeyVigenere.decrypt(inputText, key);
       console.log(result);
       setOutput(result);
+      setOutput64(btoa(result));
     }
     // Extended Vigenere Cipher - Text
     else if (cipher === "Extended Vigenere Cipher") {

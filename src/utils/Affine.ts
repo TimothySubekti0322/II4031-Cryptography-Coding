@@ -1,8 +1,9 @@
+import CleansingAlphabet from "./CleansingAlphabet";
 import ModInv from "./ModInv";
 
 const AffineCipher = {
   encrypt: (text: string, multiplier: number, b: number) => {
-    text = text.split(" ").join("");
+    text = CleansingAlphabet(text.split(" ").join(""));
     if (ModInv.modInv(multiplier, 26) ===-1){
       return "";
     };
@@ -12,15 +13,15 @@ const AffineCipher = {
         let ascValue = text[i].charCodeAt(0);
         let ascRet;
 
-        if (ascValue<91 && ascValue > 64){
-            ascValue -= 65;
-            ascRet = 65;
-        } else if (ascValue<123 && ascValue > 96){
+        // if (ascValue<91 && ascValue > 64){
+        //     ascValue -= 65;
+        //     ascRet = 65;
+        // } else if (ascValue<123 && ascValue > 96){
             ascValue -= 97
             ascRet = 97
-        } else {
-            continue
-        }
+        // } else {
+        //     continue
+        // }
       
       ascValue = ((ascValue*multiplier) + b +26) 
       while (ascValue<0){
@@ -33,7 +34,7 @@ const AffineCipher = {
   },
 
   decrypt: (text: string, multiplier: number, b: number) => {
-    text = text.split(" ").join("");
+    text = CleansingAlphabet(text.split(" ").join(""));
     const invMod = ModInv.modInv(multiplier, 26);
     console.log(invMod);
     if (invMod ===-1){
@@ -44,15 +45,16 @@ const AffineCipher = {
         let ascValue = text[i].charCodeAt(0);
         let ascRet;
 
-        if (ascValue<91 && ascValue > 64){
-            ascValue -= 65;
-            ascRet = 65;
-        } else if (ascValue<123 && ascValue > 96){
+        // if (ascValue<91 && ascValue > 64){
+        //     ascValue -= 65;
+        //     ascRet = 65;
+        // } else if (ascValue<123 && ascValue > 96){
             ascValue -= 97
             ascRet = 97
-        } else {
-            continue
-        }
+        // } else {
+        //     continue
+        // }
+        
       let ascDecrypt = (ascValue - b + 26 )
       while (ascDecrypt<0){
         ascDecrypt += 2600;
