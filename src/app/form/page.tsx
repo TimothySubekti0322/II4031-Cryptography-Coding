@@ -12,6 +12,7 @@ import AutoKeyVigenere from "@/utils/AutoKeyVigenere";
 import AffineCipher from "@/utils/Affine";
 import Affine from "@/utils/Affine";
 import ExtendedVigenere from "@/utils/ExtendedVigenere";
+import ModInv from "@/utils/ModInv";
 
 interface formDataTypes {
   inputType: string;
@@ -19,12 +20,13 @@ interface formDataTypes {
   inputText: string;
   inputFile: File | null;
   key: string;
+  multiplier: string;
 }
 
 const Form = () => {
-    // console.log(
-    //   PlayFair.encrypt("temu<!i ibu nanti malam", "ALNGESHPUBCDFIKMOQRTVWXYZ")
-    // );
+  // console.log(
+  //   PlayFair.encrypt("temu<!i ibu nanti malam", "ALNGESHPUBCDFIKMOQRTVWXYZ")
+  // );
   //   console.log(
   //     PlayFair.decrypt("ZB RSFYKUPGL GRKVSNLQV", "ALNGESHPUBCDFIKMOQRTVWXYZ")
   //   );
@@ -69,6 +71,10 @@ const Form = () => {
   const [key, setKey] = useState("");
   const [keyError, setKeyError] = useState("");
 
+  // multiplier affine
+  const [multiplier, setMultiplier] = useState("");
+  const [multiplierError, setMultiplierError] = useState("");
+
   // output
   const [output, setOutput] = useState("");
 
@@ -94,6 +100,7 @@ const Form = () => {
     inputText: "",
     inputFile: null,
     key: "",
+    multiplier: "",
   });
 
   const handleFileRead = async (e: ProgressEvent<FileReader>) => {
@@ -127,6 +134,27 @@ const Form = () => {
     } else {
       setInputError("");
       setKeyError("");
+    }
+    if (formData.cipher ==="Affine Cipher"){
+      const parsedKey = parseInt(formData.key);
+      if(!isNaN(parsedKey)){
+        setKeyError("");
+
+        const parsedMult = parseInt(formData.multiplier);
+        if(!isNaN(parsedMult)){
+          if(ModInv.modInv(Number(formData.multiplier), 26) === -1){
+            setMultiplierError("Multiplier must be a number co-prime to 26")
+          } else {
+            setMultiplierError("");
+          }
+        } else {
+          setMultiplierError("Multiplier must be a number co-prime to 26")
+        }
+
+      } else {
+        setKeyError("Key must be a number")
+      }
+      
     }
     return true;
   };
@@ -220,9 +248,8 @@ const Form = () => {
                   type="text"
                   name="inputText"
                   id="input"
-                  className={`${formData.inputType != "text" && "hidden"} ${
-                    inputError == "" ? "border-[#cabc7d]" : "border-red-500"
-                  } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                  className={`${formData.inputType != "text" && "hidden"} ${inputError == "" ? "border-[#cabc7d]" : "border-red-500"
+                    } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                   onChange={handleFormChange}
                   value={formData.inputText}
                 ></input>
@@ -231,19 +258,42 @@ const Form = () => {
                   type="file"
                   id="input"
                   accept=".txt"
-                  className={`${formData.inputType != "file" && "hidden"} ${
-                    inputError == "" ? "border-[#cabc7d]" : "border-red-500"
-                  }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                  className={`${formData.inputType != "file" && "hidden"} ${inputError == "" ? "border-[#cabc7d]" : "border-red-500"
+                    }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                   onChange={handleFileChange}
                 ></input>
                 <i className="text-red-500">{inputError}</i>
               </div>
             </div>
 
+            {formData.cipher === "Affine Cipher"
+              ?
+              <div className="flex items-center m-3">
+                <label
+                  htmlFor="multiplier"
+                  className="block mb-2 text-sm md:text-base text-[#393432] w-36 font-medium"
+                >
+                  Multiplier
+                </label>
+                <div className="w-full">
+                  <input
+                    id="multiplier"
+                    name="multiplier"
+                    className={`${multiplierError == "" ? "border-[#cabc7d]" : "border-red-500"
+                      } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                    onChange={handleFormChange}
+                  ></input>
+                  <i className="text-red-500">{multiplierError}</i>
+                </div>
+              </div>
+              :
+              <div></div>
+            }
+
             <div className="flex items-center m-3">
               <label
                 htmlFor="key"
-                className="block mb-2 text-sm md:text-base text-[#393432] w-36 font-semibold"
+                className="block mb-2 text-sm md:text-base text-[#393432] w-36 font-medium"
               >
                 Key
               </label>
@@ -251,9 +301,8 @@ const Form = () => {
                 <input
                   id="key"
                   name="key"
-                  className={`${
-                    keyError == "" ? "border-[#cabc7d]" : "border-red-500"
-                  } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                  className={`${keyError == "" ? "border-[#cabc7d]" : "border-red-500"
+                    } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                   onChange={handleFormChange}
                 ></input>
                 <i className="text-red-500">{keyError}</i>
@@ -269,6 +318,7 @@ const Form = () => {
                     formData.inputText,
                     formData.key,
                     formData.cipher,
+                    formData.multiplier,
                     setOutput
                   )
                 }
@@ -283,6 +333,7 @@ const Form = () => {
                     formData.inputText,
                     formData.key,
                     formData.cipher,
+                    formData.multiplier,
                     setOutput
                   )
                 }

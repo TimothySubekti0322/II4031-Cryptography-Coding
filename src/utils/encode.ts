@@ -12,6 +12,7 @@ const encode = (
   inputText: string,
   key: string,
   cipher: string,
+  multiplier: string,
   setOutput: React.Dispatch<React.SetStateAction<string>>
 ) => {
   if (inputAndKeyInputed()) {
@@ -37,12 +38,14 @@ const encode = (
       setOutput(result);
     }
     // // Affine Cipher - Text
-    // else if (cipher === "Affine Cipher") {
-    //   console.log(cipher);
-    //   const result = Affine.encrypt(inputText, key);
-    //   console.log(result);
-    //   setOutput(result);
-    // }
+    else if (cipher === "Affine Cipher") {
+      console.log(cipher);
+      const intMultiplier = Number(multiplier);
+      const intKey = Number(key)
+      const result = Affine.encrypt(inputText, intMultiplier, intKey);
+      console.log(result);
+      setOutput(result);
+    }
     // AutoKey Vigenere Cipher - Text
     else if (cipher === "Autokey Vigenere Cipher") {
       console.log(cipher);
