@@ -1,6 +1,7 @@
 import Alphabet from "./Alphabet";
 import CleansingAlphabet from "./CleansingAlphabet";
 
+// Menghilangkan yang duplikat, spasi, dan j untuk Key
 const removeDuplicates = (str: string): string => {
   return str
     .split("")
@@ -11,6 +12,7 @@ const removeDuplicates = (str: string): string => {
     .join("");
 };
 
+// membuat matrix dari string
 const createMatrixFromString = (str: string): string[][] => {
   let index = 0;
   let matrix = new Array(5).fill("").map(() => new Array(5).fill(""));
@@ -23,6 +25,7 @@ const createMatrixFromString = (str: string): string[][] => {
   return matrix;
 };
 
+// cek apakah ada karakter yang sama
 const checkRepeatedChars = (key: string) => {
   const set = new Set();
   for (const char of key) {
@@ -61,8 +64,12 @@ const createPairs = (text: string): string[] => {
   let index = 0;
   let pairs = [];
   let formatedText = text.split(" ").join("").toLowerCase().replace("j", "i");
+  console.log("formated Text = ", formatedText);
   while (index < text.length) {
-    if (
+    if (formatedText[index] == "x" && formatedText[index + 1] == "x") {
+      pairs.push(formatedText[index], "z");
+      index++;
+    } else if (
       formatedText[index] === formatedText[index + 1] ||
       formatedText[index + 1] === undefined
     ) {
@@ -73,6 +80,7 @@ const createPairs = (text: string): string[] => {
       index += 2;
     }
   }
+  console.log(pairs);
   return pairs;
 };
 
