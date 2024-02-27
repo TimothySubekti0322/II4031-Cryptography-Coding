@@ -2,12 +2,17 @@ import React from "react";
 import VigenereCipher from "../utils/VigenereCipher";
 import PlayFair from "../utils/PlayFair";
 import ProductCipher from "../utils/ProductCipher";
+import AffineCipher from "./Affine";
+import Affine from "./Affine";
+import AutoKeyVigenere from "./AutoKeyVigenere";
+import ExtendedVigenere from "./ExtendedVigenere";
 
 const encode = (
   inputAndKeyInputed: () => boolean,
   inputText: string,
   key: string,
   cipher: string,
+  multiplier: string,
   setOutput: React.Dispatch<React.SetStateAction<string>>
 ) => {
   if (inputAndKeyInputed()) {
@@ -30,6 +35,29 @@ const encode = (
       console.log(cipher);
       const result = ProductCipher.encrypt(inputText, key);
       console.log(result);
+      setOutput(result);
+    }
+    // // Affine Cipher - Text
+    else if (cipher === "Affine Cipher") {
+      console.log(cipher);
+      const intMultiplier = Number(multiplier);
+      const intKey = Number(key)
+      const result = Affine.encrypt(inputText, intMultiplier, intKey);
+      console.log(result);
+      setOutput(result);
+    }
+    // AutoKey Vigenere Cipher - Text
+    else if (cipher === "Autokey Vigenere Cipher") {
+      console.log(cipher);
+      const result = AutoKeyVigenere.encrypt(inputText, key);
+      console.log(result);
+      setOutput(result);
+    }
+    // Extended Vigenere Cipher - Text
+    else if (cipher === "Extended Vigenere Cipher") {
+      console.log(cipher);
+      const result = ExtendedVigenere.encrypt(inputText, key);
+      console.log("Encoded:", result);
       setOutput(result);
     }
   }

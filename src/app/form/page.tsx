@@ -5,6 +5,11 @@ import Navbar from "../components/Navbar";
 import encode from "../../utils/encode";
 import decode from "../../utils/decode";
 import { Toaster, toast } from "react-hot-toast";
+import AutoKeyVigenere from "@/utils/AutoKeyVigenere";
+import AffineCipher from "@/utils/Affine";
+import Affine from "@/utils/Affine";
+import ExtendedVigenere from "@/utils/ExtendedVigenere";
+import ModInv from "@/utils/ModInv";
 import { saveAs } from "file-saver";
 
 interface formDataTypes {
@@ -13,22 +18,47 @@ interface formDataTypes {
   inputText: string;
   inputFile: File | null;
   key: string;
+  multiplier: string;
 }
 
 const Form = () => {
-  //   console.log(
-  //     PlayFair.encrypt("temui ibu nanti malam", "ALNGESHPUBCDFIKMOQRTVWXYZ")
-  //   );
+  // console.log(
+  //   PlayFair.encrypt("temu<!i ibu nanti malam", "ALNGESHPUBCDFIKMOQRTVWXYZ")
+  // );
   //   console.log(
   //     PlayFair.decrypt("ZB RSFYKUPGL GRKVSNLQV", "ALNGESHPUBCDFIKMOQRTVWXYZ")
   //   );
   // console.log(
   //   "Encrypt : ",
-  //   ProductCipher.encyrpt("temui ibu nanti malam", "cipher")
+  //   ProductCipher.encrypt("temui<! ibu nanti malam", "cipher")
   // );
   // console.log(
   //   "Decrypt : ",
   //   ProductCipher.decrypt("vdkmrebhsmcubcpzkd", "cipher")
+  // );
+  // console.log(
+  //   "Encrypt: ",
+  //   AutoKeyVigenere.encrypt("a,b c!defghi", "aza!!")
+  // );
+  // console.log(
+  //   "Decrypt: ",
+  //   AutoKeyVigenere.decrypt("aacdfhjln", "az!!a")
+  // );
+  // console.log(
+  //   "Encrypt: ",
+  //   Affine.encrypt("abcd, !efghi", 3, 4)
+  // );
+  // console.log(
+  //   "Decrypt: ",
+  //   Affine.decrypt("ehknqtwzc", 3, 4)
+  // );
+  // console.log(
+  //   "Encrypt: ",
+  //   ExtendedVigenere.encrypt("abcd, !efghi", "!abc")
+  // );
+  // console.log(
+  //   "Decrypt: ",
+  //   ExtendedVigenere.decrypt("ÃÅÇÉÎ", "!abc")
   // );
 
   // input
@@ -38,6 +68,10 @@ const Form = () => {
   // key
   const [key, setKey] = useState("");
   const [keyError, setKeyError] = useState("");
+
+  // multiplier affine
+  const [multiplier, setMultiplier] = useState("");
+  const [multiplierError, setMultiplierError] = useState("");
 
   // output
   const [output, setOutput] = useState("");
@@ -64,6 +98,7 @@ const Form = () => {
     inputText: "",
     inputFile: null,
     key: "",
+    multiplier: "",
   });
 
   const handleFileRead = async (e: ProgressEvent<FileReader>) => {
@@ -97,6 +132,27 @@ const Form = () => {
     } else {
       setInputError("");
       setKeyError("");
+    }
+    if (formData.cipher ==="Affine Cipher"){
+      const parsedKey = parseInt(formData.key);
+      if(!isNaN(parsedKey)){
+        setKeyError("");
+
+        const parsedMult = parseInt(formData.multiplier);
+        if(!isNaN(parsedMult)){
+          if(ModInv.modInv(Number(formData.multiplier), 26) === -1){
+            setMultiplierError("Multiplier must be a number co-prime to 26")
+          } else {
+            setMultiplierError("");
+          }
+        } else {
+          setMultiplierError("Multiplier must be a number co-prime to 26")
+        }
+
+      } else {
+        setKeyError("Key must be a number")
+      }
+      
     }
     return true;
   };
@@ -162,12 +218,12 @@ const Form = () => {
       <Navbar />
       <div className="w-full min-h-screen flex flex-col items-center justify-center bg-[#fcf6e0] pt-24">
         <div className="flex w-full h-12 my-8">
-          <div className="bg-[#289687] grow"></div>
+          <div className="bg-[#319B76] grow"></div>
           <div className="bg-[#fcf6e0] flex flex-col items-center justify-center w-60">
             <h1 className="text-black font-bold">Encrypt and Decrypt</h1>
             <h1 className="text-black font-bold">Classical Cipher</h1>
           </div>
-          <div className="bg-[#289687] grow"></div>
+          <div className="bg-[#319B76] grow"></div>
         </div>
         <div className="w-1/2 justify-center gap-y-4">
           <div>
@@ -181,7 +237,7 @@ const Form = () => {
               <select
                 id="inputType"
                 name="inputType"
-                className="bg-[#fcf6e0] border-2 border-[#cabc7d] text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5"
+                className="bg-[#fcf6e0] border-2 border-[#BEAD62] text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5"
                 required
                 onChange={handleFormChange}
               >
@@ -200,7 +256,7 @@ const Form = () => {
               <select
                 id="cipher"
                 name="cipher"
-                className="bg-[#fcf6e0] border-2 border-[#cabc7d] text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5"
+                className="bg-[#fcf6e0] border-2 border-[#BEAD62] text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5"
                 required
                 onChange={handleFormChange}
               >
@@ -230,13 +286,13 @@ const Form = () => {
                   type="text"
                   name="inputText"
                   id="input"
-                  className={`${formData.inputType != "text" && "hidden"} ${
-                    inputError == "" ? "border-[#cabc7d]" : "border-red-500"
-                  } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                  className={`${formData.inputType != "text" && "hidden"} ${inputError == "" ? "border-[#BEAD62]" : "border-red-500"
+                    } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                   onChange={handleFormChange}
                   value={formData.inputText}
                 ></input>
                 {/* Form Input */}
+
                 {formData.cipher === "Extended Vigenere Cipher" ? (
                   <input
                     type="file"
@@ -263,10 +319,34 @@ const Form = () => {
               </div>
             </div>
 
+            {formData.cipher === "Affine Cipher"
+              ?
+              <div className="flex items-center m-3">
+                <label
+                  htmlFor="multiplier"
+                  className="block mb-2 text-sm md:text-base text-[#393432] w-36 font-medium"
+                >
+                  Multiplier
+                </label>
+                <div className="w-full">
+                  <input
+                    id="multiplier"
+                    name="multiplier"
+                    className={`${multiplierError == "" ? "border-[#BEAD62]" : "border-red-500"
+                      } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                    onChange={handleFormChange}
+                  ></input>
+                  <i className="text-red-500">{multiplierError}</i>
+                </div>
+              </div>
+              :
+              <div></div>
+            }
+
             <div className="flex items-center m-3">
               <label
                 htmlFor="key"
-                className="block mb-2 text-sm md:text-base text-[#393432] w-36 font-semibold"
+                className="block mb-2 text-sm md:text-base text-[#393432] w-36 font-medium"
               >
                 Key
               </label>
@@ -274,9 +354,8 @@ const Form = () => {
                 <input
                   id="key"
                   name="key"
-                  className={`${
-                    keyError == "" ? "border-[#cabc7d]" : "border-red-500"
-                  } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                  className={`${keyError == "" ? "border-[#BEAD62]" : "border-red-500"
+                    } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                   onChange={handleFormChange}
                 ></input>
                 <i className="text-red-500">{keyError}</i>
@@ -285,13 +364,14 @@ const Form = () => {
 
             <div className="flex w-full gap-x-12 justify-center pt-4 font-bold">
               <button
-                className="bg-[#289687] border-2 border-[#289687] text-white text-md rounded-lg block w-60 p-2.5 hover:bg-[#067465] "
+                className="bg-[#319B76] border-2 border-[#319B76] text-white text-md rounded-lg block w-60 p-2.5 hover:bg-[#067465] "
                 onClick={() =>
                   encode(
                     inputAndKeyInputed,
                     formData.inputText,
                     formData.key,
                     formData.cipher,
+                    formData.multiplier,
                     setOutput
                   )
                 }
@@ -299,13 +379,14 @@ const Form = () => {
                 Encode
               </button>
               <button
-                className="bg-[#fcf6e0] border-2 border-[#289687] text-[#289687] text-md rounded-lg block w-60 p-2.5 hover:bg-[#289687] hover:text-white"
+                className="bg-[#fcf6e0] border-2 border-[#319B76] text-[#319B76] text-md rounded-lg block w-60 p-2.5 hover:bg-[#319B76] hover:text-white"
                 onClick={() =>
                   decode(
                     inputAndKeyInputed,
                     formData.inputText,
                     formData.key,
                     formData.cipher,
+                    formData.multiplier,
                     setOutput
                   )
                 }
@@ -316,15 +397,16 @@ const Form = () => {
           </div>
         </div>
         <div className="flex w-full h-12 my-12">
-          <div className="bg-[#289687] grow"></div>
+          <div className="bg-[#319B76] grow"></div>
           <div className="bg-[#fcf6e0] flex flex-col items-center justify-center w-60">
             <h1 className="text-black font-bold">Result</h1>
           </div>
-          <div className="bg-[#289687] grow"></div>
+          <div className="bg-[#319B76] grow"></div>
         </div>
         <div className="w-full sm:w-1/2 border-[#4B4737] border-2 min-h-32 rounded-xl p-4 text-[#4B4737]">
           {output}
         </div>
+
         {formData.cipher === "Extended Vigenere Cipher" &&
         formData.inputType === "file" ? (
           <button
