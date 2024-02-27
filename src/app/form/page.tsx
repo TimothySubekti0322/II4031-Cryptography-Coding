@@ -180,12 +180,12 @@ const Form = () => {
       <Navbar />
       <div className="w-full min-h-screen flex flex-col items-center justify-center bg-[#fcf6e0] pt-24">
         <div className="flex w-full h-12 my-8">
-          <div className="bg-[#289687] grow"></div>
+          <div className="bg-[#6BB8AD] grow"></div>
           <div className="bg-[#fcf6e0] flex flex-col items-center justify-center w-60">
             <h1 className="text-black font-bold">Encrypt and Decrypt</h1>
             <h1 className="text-black font-bold">Classical Cipher</h1>
           </div>
-          <div className="bg-[#289687] grow"></div>
+          <div className="bg-[#6BB8AD] grow"></div>
         </div>
         <div className="w-1/2 justify-center gap-y-4">
           <div>
@@ -199,7 +199,7 @@ const Form = () => {
               <select
                 id="inputType"
                 name="inputType"
-                className="bg-[#fcf6e0] border-2 border-[#cabc7d] text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5"
+                className="bg-[#fcf6e0] border-2 border-[#BEAD62] text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5"
                 required
                 onChange={handleFormChange}
               >
@@ -218,7 +218,7 @@ const Form = () => {
               <select
                 id="cipher"
                 name="cipher"
-                className="bg-[#fcf6e0] border-2 border-[#cabc7d] text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5"
+                className="bg-[#fcf6e0] border-2 border-[#BEAD62] text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5"
                 required
                 onChange={handleFormChange}
               >
@@ -248,7 +248,7 @@ const Form = () => {
                   type="text"
                   name="inputText"
                   id="input"
-                  className={`${formData.inputType != "text" && "hidden"} ${inputError == "" ? "border-[#cabc7d]" : "border-red-500"
+                  className={`${formData.inputType != "text" && "hidden"} ${inputError == "" ? "border-[#BEAD62]" : "border-red-500"
                     } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                   onChange={handleFormChange}
                   value={formData.inputText}
@@ -258,7 +258,7 @@ const Form = () => {
                   type="file"
                   id="input"
                   accept=".txt"
-                  className={`${formData.inputType != "file" && "hidden"} ${inputError == "" ? "border-[#cabc7d]" : "border-red-500"
+                  className={`${formData.inputType != "file" && "hidden"} ${inputError == "" ? "border-[#BEAD62]" : "border-red-500"
                     }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                   onChange={handleFileChange}
                 ></input>
@@ -279,7 +279,7 @@ const Form = () => {
                   <input
                     id="multiplier"
                     name="multiplier"
-                    className={`${multiplierError == "" ? "border-[#cabc7d]" : "border-red-500"
+                    className={`${multiplierError == "" ? "border-[#BEAD62]" : "border-red-500"
                       } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                     onChange={handleFormChange}
                   ></input>
@@ -301,7 +301,7 @@ const Form = () => {
                 <input
                   id="key"
                   name="key"
-                  className={`${keyError == "" ? "border-[#cabc7d]" : "border-red-500"
+                  className={`${keyError == "" ? "border-[#BEAD62]" : "border-red-500"
                     } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                   onChange={handleFormChange}
                 ></input>
@@ -311,7 +311,7 @@ const Form = () => {
 
             <div className="flex w-full gap-x-12 justify-center pt-4 font-bold">
               <button
-                className="bg-[#289687] border-2 border-[#289687] text-white text-md rounded-lg block w-60 p-2.5 hover:bg-[#067465] "
+                className="bg-[#6BB8AD] border-2 border-[#6BB8AD] text-white text-md rounded-lg block w-60 p-2.5 hover:bg-[#067465] "
                 onClick={() =>
                   encode(
                     inputAndKeyInputed,
@@ -326,7 +326,7 @@ const Form = () => {
                 Encode
               </button>
               <button
-                className="bg-[#fcf6e0] border-2 border-[#289687] text-[#289687] text-md rounded-lg block w-60 p-2.5 hover:bg-[#289687] hover:text-white"
+                className="bg-[#fcf6e0] border-2 border-[#6BB8AD] text-[#6BB8AD] text-md rounded-lg block w-60 p-2.5 hover:bg-[#6BB8AD] hover:text-white"
                 onClick={() =>
                   decode(
                     inputAndKeyInputed,
@@ -344,17 +344,17 @@ const Form = () => {
           </div>
         </div>
         <div className="flex w-full h-12 my-12">
-          <div className="bg-[#289687] grow"></div>
+          <div className="bg-[#6BB8AD] grow"></div>
           <div className="bg-[#fcf6e0] flex flex-col items-center justify-center w-60">
             <h1 className="text-black font-bold">Result</h1>
           </div>
-          <div className="bg-[#289687] grow"></div>
+          <div className="bg-[#6BB8AD] grow"></div>
         </div>
         <div className="w-full sm:w-1/2 border-[#4B4737] border-2 min-h-32 rounded-xl p-4 text-[#4B4737]">
           {output}
         </div>
         <button
-          className="my-8 bg-[#CABC7D] rounded-lg px-12 py-2 text-white hover:bg-[#A89A5B]"
+          className="my-8 bg-[#BEAD62] rounded-lg px-12 py-2 text-white hover:bg-[#A89A5B]"
           onClick={downloadTxtFile}
         >
           Download

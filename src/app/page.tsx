@@ -6,7 +6,7 @@ const temporaryDescriptionCard =
 
 export default function Home() {
   return (
-    <main className="bg-[#cabc7d]  min-h-screen w-full overflow-x-hidden sm:h-screen sm:max-h-screen">
+    <main className="bg-[#BEAD62]  min-h-screen w-full overflow-x-hidden sm:h-screen sm:max-h-screen">
       {/* Hero Section */}
       <div className="flex flex-col items-center py-10 w-full sm:h-full sm:relative sm:flex-row sm:overflow-y-hidden">
         <div className="w-full flex flex-col items-center sm:absolute sm:items-end sm:px-8 sm:pt-24 z-20 sm:top-0 xl:pt-16">

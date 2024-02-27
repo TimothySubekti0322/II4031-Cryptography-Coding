@@ -18,8 +18,9 @@ const ModInv = {
         return -1;
       } 
       if(t<0){
-        t += m
+        t += a
       }
+      console.log(t);
       return t;
     }
   };
