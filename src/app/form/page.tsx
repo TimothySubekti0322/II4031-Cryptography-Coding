@@ -1,13 +1,11 @@
 "use client";
 
 import { ChangeEvent, useState } from "react";
-import VigenereCipher from "../../utils/VigenereCipher";
-import PlayFair, { generateMatrix } from "../../utils/PlayFair";
-import ProductCipher from "../../utils/ProductCipher";
 import Navbar from "../components/Navbar";
 import encode from "../../utils/encode";
 import decode from "../../utils/decode";
 import { Toaster, toast } from "react-hot-toast";
+import { saveAs } from "file-saver";
 
 interface formDataTypes {
   inputType: string;
@@ -104,6 +102,7 @@ const Form = () => {
   };
 
   const downloadTxtFile = () => {
+    console.log(output);
     if (output == "") {
       toast.error("There is no output to download!");
     } else {
@@ -116,6 +115,45 @@ const Form = () => {
       document.body.appendChild(element); // Required for this to work in FireFox
       element.click();
     }
+  };
+
+  //  ---------------- Extended Vigenere Cipher ---------------- //
+
+  // fileName
+  const [fileName, setFileName] = useState("");
+
+  // fileBaseString
+  const [fileType, setFileType] = useState<string>("");
+
+  // file Array Buffer
+  const [fileBaseString, setFileBaseString] = useState<string>("");
+
+  const handleAnyFileRead = async (e: ProgressEvent<FileReader>) => {
+    console.log(e.target);
+    const content = e.target?.result;
+    setFileBaseString(content as string);
+    console.log(content);
+  };
+
+  const handleAnyFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    e.preventDefault();
+    if (e.target.files) {
+      console.log(e.target.files[0]);
+      setFileName(e.target.files[0].name);
+      setFileType(e.target.files[0].type);
+      const reader = new FileReader();
+      reader.onloadend = handleAnyFileRead;
+      reader.readAsArrayBuffer(e.target.files[0]);
+    }
+  };
+
+  const downloadAnyFile = () => {
+    const file = new Blob([fileBaseString], {
+      type: fileType,
+    });
+    saveAs(file, fileName);
   };
 
   return (
@@ -199,15 +237,28 @@ const Form = () => {
                   value={formData.inputText}
                 ></input>
                 {/* Form Input */}
-                <input
-                  type="file"
-                  id="input"
-                  accept=".txt"
-                  className={`${formData.inputType != "file" && "hidden"} ${
-                    inputError == "" ? "border-[#cabc7d]" : "border-red-500"
-                  }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
-                  onChange={handleFileChange}
-                ></input>
+                {formData.cipher === "Extended Vigenere Cipher" ? (
+                  <input
+                    type="file"
+                    id="input"
+                    accept=".txt"
+                    className={`${formData.inputType != "file" && "hidden"} ${
+                      inputError == "" ? "border-[#cabc7d]" : "border-red-500"
+                    }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                    onChange={handleAnyFileChange}
+                  ></input>
+                ) : (
+                  <input
+                    type="file"
+                    id="input"
+                    accept=".txt"
+                    className={`${formData.inputType != "file" && "hidden"} ${
+                      inputError == "" ? "border-[#cabc7d]" : "border-red-500"
+                    }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                    onChange={handleFileChange}
+                  ></input>
+                )}
+
                 <i className="text-red-500">{inputError}</i>
               </div>
             </div>
@@ -274,12 +325,22 @@ const Form = () => {
         <div className="w-full sm:w-1/2 border-[#4B4737] border-2 min-h-32 rounded-xl p-4 text-[#4B4737]">
           {output}
         </div>
-        <button
-          className="my-8 bg-[#CABC7D] rounded-lg px-12 py-2 text-white hover:bg-[#A89A5B]"
-          onClick={downloadTxtFile}
-        >
-          Download
-        </button>
+        {formData.cipher === "Extended Vigenere Cipher" &&
+        formData.inputType === "file" ? (
+          <button
+            className="my-8 bg-[#CABC7D] rounded-lg px-12 py-2 text-white hover:bg-[#A89A5B]"
+            onClick={downloadAnyFile}
+          >
+            Download
+          </button>
+        ) : (
+          <button
+            className="my-8 bg-[#CABC7D] rounded-lg px-12 py-2 text-white hover:bg-[#A89A5B]"
+            onClick={downloadTxtFile}
+          >
+            Download
+          </button>
+        )}
       </div>
     </div>
   );
