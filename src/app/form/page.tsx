@@ -5,10 +5,6 @@ import Navbar from "../components/Navbar";
 import encode from "../../utils/encode";
 import decode from "../../utils/decode";
 import { Toaster, toast } from "react-hot-toast";
-import AutoKeyVigenere from "@/utils/AutoKeyVigenere";
-import AffineCipher from "@/utils/Affine";
-import Affine from "@/utils/Affine";
-import ExtendedVigenere from "@/utils/ExtendedVigenere";
 import ModInv from "@/utils/ModInv";
 import { saveAs } from "file-saver";
 
@@ -75,6 +71,7 @@ const Form = () => {
 
   // output
   const [output, setOutput] = useState("");
+  const [output64, setOutput64] = useState("");
 
   const handleFormChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -133,14 +130,14 @@ const Form = () => {
       setInputError("");
       setKeyError("");
     }
-    if (formData.cipher ==="Affine Cipher"){
+    if (formData.cipher === "Affine Cipher") {
       const parsedKey = parseInt(formData.key);
-      if(!isNaN(parsedKey)){
+      if (!isNaN(parsedKey)) {
         setKeyError("");
 
         const parsedMult = parseInt(formData.multiplier);
-        if(!isNaN(parsedMult)){
-          if(ModInv.modInv(Number(formData.multiplier), 26) === -1){
+        if (!isNaN(parsedMult)) {
+          if (ModInv.modInv(Number(formData.multiplier), 26) === -1) {
             setMultiplierError("Multiplier must be a number co-prime to 26")
           } else {
             setMultiplierError("");
@@ -152,7 +149,7 @@ const Form = () => {
       } else {
         setKeyError("Key must be a number")
       }
-      
+
     }
     return true;
   };
@@ -164,6 +161,21 @@ const Form = () => {
     } else {
       const element = document.createElement("a");
       const file = new Blob([output], {
+        type: "text/plain",
+      });
+      element.href = URL.createObjectURL(file);
+      element.download = "cipher.txt";
+      document.body.appendChild(element); // Required for this to work in FireFox
+      element.click();
+    }
+  };
+
+  const downloadTxt64File = () => {
+    if (output64 == "") {
+      toast.error("There is no output to download!");
+    } else {
+      const element = document.createElement("a");
+      const file = new Blob([output64], {
         type: "text/plain",
       });
       element.href = URL.createObjectURL(file);
@@ -188,6 +200,9 @@ const Form = () => {
     console.log(e.target);
     const content = e.target?.result;
     setFileBaseString(content as string);
+    // const byteArray = new Uint8Array(content);
+    // setFormData({ ...formData, inputText: byteArray });
+
     console.log(content);
   };
 
@@ -196,12 +211,17 @@ const Form = () => {
   ) => {
     e.preventDefault();
     if (e.target.files) {
+      setFormData({ ...formData, inputFile: e.target.files[0] });
       console.log(e.target.files[0]);
+
       setFileName(e.target.files[0].name);
       setFileType(e.target.files[0].type);
+
       const reader = new FileReader();
       reader.onloadend = handleAnyFileRead;
       reader.readAsArrayBuffer(e.target.files[0]);
+      // const byteArray = new Uint8Array(content);
+      // console.log(byteArray)
     }
   };
 
@@ -297,10 +317,9 @@ const Form = () => {
                   <input
                     type="file"
                     id="input"
-                    accept=".txt"
-                    className={`${formData.inputType != "file" && "hidden"} ${
-                      inputError == "" ? "border-[#cabc7d]" : "border-red-500"
-                    }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                    // accept=".txt"
+                    className={`${formData.inputType != "file" && "hidden"} ${inputError == "" ? "border-[#cabc7d]" : "border-red-500"
+                      }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                     onChange={handleAnyFileChange}
                   ></input>
                 ) : (
@@ -308,9 +327,8 @@ const Form = () => {
                     type="file"
                     id="input"
                     accept=".txt"
-                    className={`${formData.inputType != "file" && "hidden"} ${
-                      inputError == "" ? "border-[#cabc7d]" : "border-red-500"
-                    }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                    className={`${formData.inputType != "file" && "hidden"} ${inputError == "" ? "border-[#cabc7d]" : "border-red-500"
+                      }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                     onChange={handleFileChange}
                   ></input>
                 )}
@@ -372,7 +390,8 @@ const Form = () => {
                     formData.key,
                     formData.cipher,
                     formData.multiplier,
-                    setOutput
+                    setOutput,
+                    setOutput64
                   )
                 }
               >
@@ -387,7 +406,8 @@ const Form = () => {
                     formData.key,
                     formData.cipher,
                     formData.multiplier,
-                    setOutput
+                    setOutput,
+                    setOutput64
                   )
                 }
               >
@@ -396,6 +416,25 @@ const Form = () => {
             </div>
           </div>
         </div>
+
+        {
+          formData.inputType === "file" ?
+            <>
+              <div className="flex w-full h-12 my-12">
+                <div className="bg-[#319B76] grow"></div>
+                <div className="bg-[#fcf6e0] flex flex-col items-center justify-center w-60">
+                  <h1 className="text-black font-bold">Plaintext</h1>
+                </div>
+                <div className="bg-[#319B76] grow"></div>
+              </div>
+              <div className="w-full sm:w-1/2 border-[#4B4737] border-2 min-h-32 rounded-xl p-4 text-[#4B4737]">
+                {formData.inputText}
+              </div>
+            </>
+            :
+            <></>
+        }
+
         <div className="flex w-full h-12 my-12">
           <div className="bg-[#319B76] grow"></div>
           <div className="bg-[#fcf6e0] flex flex-col items-center justify-center w-60">
@@ -406,9 +445,8 @@ const Form = () => {
         <div className="w-full sm:w-1/2 border-[#4B4737] border-2 min-h-32 rounded-xl p-4 text-[#4B4737]">
           {output}
         </div>
-
         {formData.cipher === "Extended Vigenere Cipher" &&
-        formData.inputType === "file" ? (
+          formData.inputType === "file" ? (
           <button
             className="my-8 bg-[#CABC7D] rounded-lg px-12 py-2 text-white hover:bg-[#A89A5B]"
             onClick={downloadAnyFile}
@@ -423,6 +461,25 @@ const Form = () => {
             Download
           </button>
         )}
+
+        <div className="flex w-full h-12 my-12">
+          <div className="bg-[#319B76] grow"></div>
+          <div className="bg-[#fcf6e0] flex flex-col items-center justify-center w-60">
+            <h1 className="text-black font-bold">Result in Base64</h1>
+          </div>
+          <div className="bg-[#319B76] grow"></div>
+        </div>
+        <div className="w-full sm:w-1/2 border-[#4B4737] border-2 min-h-32 rounded-xl p-4 text-[#4B4737]">
+          {output64}
+        </div>
+        <button
+          className="my-8 bg-[#BEAD62] rounded-lg px-12 py-2 text-white hover:bg-[#A89A5B]"
+          onClick={downloadTxt64File}
+        >
+          Download
+        </button>
+
+
       </div>
     </div>
   );
@@ -430,6 +487,10 @@ const Form = () => {
 
 export default Form;
 
+
+async function getAsByteArray(file: any) {
+  return new Uint8Array(await (file));
+}
 // const encode = () => {
 //   if (inputAndKeyInputed()) {
 //     console.log(formData.inputText, formData.key);

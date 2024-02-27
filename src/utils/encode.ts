@@ -13,7 +13,8 @@ const encode = (
   key: string,
   cipher: string,
   multiplier: string,
-  setOutput: React.Dispatch<React.SetStateAction<string>>
+  setOutput: React.Dispatch<React.SetStateAction<string>>,
+  setOutput64: React.Dispatch<React.SetStateAction<string>>
 ) => {
   if (inputAndKeyInputed()) {
     console.log(inputText, key);
@@ -22,6 +23,7 @@ const encode = (
       const result = VigenereCipher.encrypt(inputText, key);
       console.log(result);
       setOutput(result);
+      setOutput64(btoa(result));
     }
     // Playfair Cipher - Text
     else if (cipher === "Playfair Cipher") {
@@ -29,6 +31,7 @@ const encode = (
       const result = PlayFair.encrypt(inputText, key);
       console.log(result);
       setOutput(result);
+      setOutput64(btoa(result));
     }
     // Product Cipher - Text
     else if (cipher === "Product Cipher") {
@@ -36,6 +39,7 @@ const encode = (
       const result = ProductCipher.encrypt(inputText, key);
       console.log(result);
       setOutput(result);
+      setOutput64(btoa(result));
     }
     // // Affine Cipher - Text
     else if (cipher === "Affine Cipher") {
@@ -45,6 +49,7 @@ const encode = (
       const result = Affine.encrypt(inputText, intMultiplier, intKey);
       console.log(result);
       setOutput(result);
+      setOutput64(btoa(result));
     }
     // AutoKey Vigenere Cipher - Text
     else if (cipher === "Autokey Vigenere Cipher") {
@@ -52,13 +57,15 @@ const encode = (
       const result = AutoKeyVigenere.encrypt(inputText, key);
       console.log(result);
       setOutput(result);
+      setOutput64(btoa(result));
     }
     // Extended Vigenere Cipher - Text
     else if (cipher === "Extended Vigenere Cipher") {
       console.log(cipher);
       const result = ExtendedVigenere.encrypt(inputText, key);
       console.log("Encoded:", result);
-      setOutput(result);
+      setOutput(atob(result));
+      setOutput64(result);
     }
   }
 };
