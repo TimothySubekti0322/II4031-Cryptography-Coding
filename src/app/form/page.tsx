@@ -77,6 +77,7 @@ const Form = () => {
 
   // output
   const [output, setOutput] = useState("");
+  const [output64, setOutput64] = useState("");
 
   const handleFormChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -165,6 +166,21 @@ const Form = () => {
     } else {
       const element = document.createElement("a");
       const file = new Blob([output], {
+        type: "text/plain",
+      });
+      element.href = URL.createObjectURL(file);
+      element.download = "cipher.txt";
+      document.body.appendChild(element); // Required for this to work in FireFox
+      element.click();
+    }
+  };
+
+  const downloadTxt64File = () => {
+    if (output64 == "") {
+      toast.error("There is no output to download!");
+    } else {
+      const element = document.createElement("a");
+      const file = new Blob([output64], {
         type: "text/plain",
       });
       element.href = URL.createObjectURL(file);
@@ -319,7 +335,8 @@ const Form = () => {
                     formData.key,
                     formData.cipher,
                     formData.multiplier,
-                    setOutput
+                    setOutput, 
+                    setOutput64
                   )
                 }
               >
@@ -334,7 +351,8 @@ const Form = () => {
                     formData.key,
                     formData.cipher,
                     formData.multiplier,
-                    setOutput
+                    setOutput, 
+                    setOutput64
                   )
                 }
               >
@@ -343,6 +361,7 @@ const Form = () => {
             </div>
           </div>
         </div>
+
         <div className="flex w-full h-12 my-12">
           <div className="bg-[#319B76] grow"></div>
           <div className="bg-[#fcf6e0] flex flex-col items-center justify-center w-60">
@@ -359,6 +378,24 @@ const Form = () => {
         >
           Download
         </button>
+
+        <div className="flex w-full h-12 my-12">
+          <div className="bg-[#319B76] grow"></div>
+          <div className="bg-[#fcf6e0] flex flex-col items-center justify-center w-60">
+            <h1 className="text-black font-bold">Result in Base64</h1>
+          </div>
+          <div className="bg-[#319B76] grow"></div>
+        </div>
+        <div className="w-full sm:w-1/2 border-[#4B4737] border-2 min-h-32 rounded-xl p-4 text-[#4B4737]">
+          {output64}
+        </div>
+        <button
+          className="my-8 bg-[#BEAD62] rounded-lg px-12 py-2 text-white hover:bg-[#A89A5B]"
+          onClick={downloadTxt64File}
+        >
+          Download
+        </button>
+
       </div>
     </div>
   );

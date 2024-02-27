@@ -12,7 +12,8 @@ const decode = (
   key: string,
   cipher: string,
   multiplier: string,
-  setOutput: React.Dispatch<React.SetStateAction<string>>
+  setOutput: React.Dispatch<React.SetStateAction<string>>,
+  setOutput64: React.Dispatch<React.SetStateAction<string>>
 ) => {
   if (inputAndKeyInputed()) {
     console.log(inputText, key);
@@ -57,7 +58,8 @@ const decode = (
       console.log(cipher);
       const result = ExtendedVigenere.decrypt(inputText, key);
       console.log("Decoded: ",result);
-      setOutput(result);
+      setOutput(atob(result));
+      setOutput64(result);
     }
   }
 };
