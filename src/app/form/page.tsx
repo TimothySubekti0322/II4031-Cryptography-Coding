@@ -200,9 +200,6 @@ const Form = () => {
     console.log(e.target);
     const content = e.target?.result;
     setFileBaseString(content as string);
-    // const byteArray = new Uint8Array(content);
-    // setFormData({ ...formData, inputText: byteArray });
-
     console.log(content);
   };
 
@@ -211,17 +208,12 @@ const Form = () => {
   ) => {
     e.preventDefault();
     if (e.target.files) {
-      setFormData({ ...formData, inputFile: e.target.files[0] });
       console.log(e.target.files[0]);
-
       setFileName(e.target.files[0].name);
       setFileType(e.target.files[0].type);
-
       const reader = new FileReader();
       reader.onloadend = handleAnyFileRead;
       reader.readAsArrayBuffer(e.target.files[0]);
-      // const byteArray = new Uint8Array(content);
-      // console.log(byteArray)
     }
   };
 
@@ -487,10 +479,6 @@ const Form = () => {
 
 export default Form;
 
-
-async function getAsByteArray(file: any) {
-  return new Uint8Array(await (file));
-}
 // const encode = () => {
 //   if (inputAndKeyInputed()) {
 //     console.log(formData.inputText, formData.key);
