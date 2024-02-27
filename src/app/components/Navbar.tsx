@@ -6,9 +6,9 @@ const Navbar = () => {
       <button onClick={() => (window.location.href = "/")}>
         <img src="img/sundial.png" alt="logo" className="w-10"></img>
       </button>
-      <button className="ml-12 bg-[#277C5E] text-white py-2 px-10 rounded-lg">Task 1</button>
-      <button className="py-2 px-10 rounded-lg hover:bg-[#277C5E]">Task 2</button>
-      <button className="py-2 px-10 rounded-lg hover:bg-[#277C5E]">Task 3</button>
+      <button className="ml-12 bg-[#319B76] text-white py-2 px-10 rounded-lg">Task 1</button>
+      <button className="py-2 px-10 rounded-lg hover:bg-[#319B76]">Task 2</button>
+      <button className="py-2 px-10 rounded-lg hover:bg-[#319B76]">Task 3</button>
     </div>
   );
 };

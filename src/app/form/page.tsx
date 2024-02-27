@@ -180,12 +180,12 @@ const Form = () => {
       <Navbar />
       <div className="w-full min-h-screen flex flex-col items-center justify-center bg-[#fcf6e0] pt-24">
         <div className="flex w-full h-12 my-8">
-          <div className="bg-[#277C5E] grow"></div>
+          <div className="bg-[#319B76] grow"></div>
           <div className="bg-[#fcf6e0] flex flex-col items-center justify-center w-60">
             <h1 className="text-black font-bold">Encrypt and Decrypt</h1>
             <h1 className="text-black font-bold">Classical Cipher</h1>
           </div>
-          <div className="bg-[#277C5E] grow"></div>
+          <div className="bg-[#319B76] grow"></div>
         </div>
         <div className="w-1/2 justify-center gap-y-4">
           <div>
@@ -311,7 +311,7 @@ const Form = () => {
 
             <div className="flex w-full gap-x-12 justify-center pt-4 font-bold">
               <button
-                className="bg-[#277C5E] border-2 border-[#277C5E] text-white text-md rounded-lg block w-60 p-2.5 hover:bg-[#067465] "
+                className="bg-[#319B76] border-2 border-[#319B76] text-white text-md rounded-lg block w-60 p-2.5 hover:bg-[#067465] "
                 onClick={() =>
                   encode(
                     inputAndKeyInputed,
@@ -326,7 +326,7 @@ const Form = () => {
                 Encode
               </button>
               <button
-                className="bg-[#fcf6e0] border-2 border-[#277C5E] text-[#277C5E] text-md rounded-lg block w-60 p-2.5 hover:bg-[#277C5E] hover:text-white"
+                className="bg-[#fcf6e0] border-2 border-[#319B76] text-[#319B76] text-md rounded-lg block w-60 p-2.5 hover:bg-[#319B76] hover:text-white"
                 onClick={() =>
                   decode(
                     inputAndKeyInputed,
@@ -344,11 +344,11 @@ const Form = () => {
           </div>
         </div>
         <div className="flex w-full h-12 my-12">
-          <div className="bg-[#277C5E] grow"></div>
+          <div className="bg-[#319B76] grow"></div>
           <div className="bg-[#fcf6e0] flex flex-col items-center justify-center w-60">
             <h1 className="text-black font-bold">Result</h1>
           </div>
-          <div className="bg-[#277C5E] grow"></div>
+          <div className="bg-[#319B76] grow"></div>
         </div>
         <div className="w-full sm:w-1/2 border-[#4B4737] border-2 min-h-32 rounded-xl p-4 text-[#4B4737]">
           {output}
