@@ -1,6 +1,17 @@
 import Alphabet from "./Alphabet";
 import CleansingAlphabet from "./CleansingAlphabet";
 
+export const createVigenereCipherKey = (text: string, key: string) => {
+  const formatedKey = CleansingAlphabet(key.split(" ").join(""));
+  const textWithoutSpace = CleansingAlphabet(text.split(" ").join(""));
+  let result = "";
+  for (let i = 0; i < textWithoutSpace.length; i++) {
+    const keyChar = formatedKey[i % formatedKey.length].toLowerCase();
+    result += keyChar;
+  }
+  return result;
+}
+
 const VigenereCipher = {
   encrypt: (text: string, key: string) => {
     const formatedKey = CleansingAlphabet(key.split(" ").join(""));

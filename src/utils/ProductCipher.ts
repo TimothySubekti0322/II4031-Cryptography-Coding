@@ -35,21 +35,39 @@ const permutationKey = (key: string): number[] => {
 
   const sortedCharacters = [...characters].sort();
 
-  const permutationKey = characters.map((char) =>
-    sortedCharacters.indexOf(char)
-  );
+  const permutationKey: number[] = [];
+
+  for (let i = 0; i < characters.length; i++) {
+    permutationKey.push(sortedCharacters.indexOf(characters[i]));
+    sortedCharacters[sortedCharacters.indexOf(characters[i])] = "";
+  }
+
+  // const permutationKey = characters.map((char) =>
+  //   sortedCharacters.indexOf(char)
+  // );
+  console.log("permutation key = ", permutationKey);
   return permutationKey;
 };
 
 const tranposeMatriksResult = (matrix: string[][], key: string): string => {
   const permutation = permutationKey(key);
+  console.log("permutation = ", permutation);
   let result = "";
   for (let permutKey = 0; permutKey < permutation.length; permutKey++) {
     for (let row = 0; row < matrix.length; row++) {
+      // console.log("matrix", matrix);
+      // console.log(
+      //   "row",
+      //   row,
+      //   "permutKey",
+      //   permutKey,
+      //   "permutation.indexOf(permutKey)",
+      //   permutation.indexOf(permutKey)
+      // );
       result += matrix[row][permutation.indexOf(permutKey)];
     }
   }
-
+  result = result.split(" ").join("");
   return result;
 };
 
@@ -93,6 +111,7 @@ const tranposeMatriksResultDecrypt = (matrix: string[][]): string => {
       result += matrix[row][col];
     }
   }
+  result = result.split(" ").join("");
   return result;
 };
 

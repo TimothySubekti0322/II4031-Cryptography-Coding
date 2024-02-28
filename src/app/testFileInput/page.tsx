@@ -63,7 +63,7 @@ const TestFileInput = () => {
       setFileType(e.target.files[0].type);
       const reader = new FileReader();
       reader.onloadend = handleFileRead;
-      reader.readAsArrayBuffer(e.target.files[0]);
+      reader.readAsDataURL(e.target.files[0]);
     }
   };
 
@@ -91,16 +91,28 @@ const TestFileInput = () => {
   //   }
   // };
 
+  // const downloadFile = () => {
+  //   const element = document.createElement("a");
+  //   const file = new Blob([fileBaseString], {
+  //     type: fileType,
+  //   });
+  //   saveAs(file, fileName);
+  //   //  element.href = URL.createObjectURL(file);
+  //   //  element.download = fileName;
+  //   //  document.body.appendChild(element); // Required for this to work in FireFox
+  //   //  element.click();
+  // };
+
   const downloadFile = () => {
-    const element = document.createElement("a");
-    const file = new Blob([fileBaseString], {
-      type: fileType,
-    });
-    saveAs(file, fileName);
-    //  element.href = URL.createObjectURL(file);
-    //  element.download = fileName;
-    //  document.body.appendChild(element); // Required for this to work in FireFox
-    //  element.click();
+    console.log(fileType, fileBaseString, fileName);
+    const linkSource = `data:${fileType};base64,${fileBaseString}`;
+    const downloadLink = document.createElement("a");
+    document.body.appendChild(downloadLink);
+
+    downloadLink.href = linkSource;
+    downloadLink.target = "_self";
+    downloadLink.download = fileName;
+    downloadLink.click();
   };
 
   return (

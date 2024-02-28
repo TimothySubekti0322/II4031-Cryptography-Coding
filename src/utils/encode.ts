@@ -45,7 +45,7 @@ const encode = (
     else if (cipher === "Affine Cipher") {
       console.log(cipher);
       const intMultiplier = Number(multiplier);
-      const intKey = Number(key)
+      const intKey = Number(key);
       const result = Affine.encrypt(inputText, intMultiplier, intKey);
       console.log(result);
       setOutput(result);
