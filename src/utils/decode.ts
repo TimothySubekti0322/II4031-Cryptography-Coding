@@ -16,7 +16,9 @@ const decode = (
   fileBaseString: ArrayBufferLike | undefined,
   setOutput: React.Dispatch<React.SetStateAction<string>>,
   setOutput64: React.Dispatch<React.SetStateAction<string>>,
-  setFileBaseString: React.Dispatch<React.SetStateAction<ArrayBuffer | undefined>>
+  setFileBaseString: React.Dispatch<
+    React.SetStateAction<ArrayBuffer | undefined>
+  >
 ) => {
   if (cipher === "Extended Vigenere Cipher" && inputType === "file") {
     if (typeof fileBaseString !== "undefined") {
@@ -60,7 +62,7 @@ const decode = (
       else if (cipher === "Affine Cipher") {
         console.log(cipher);
         const intMultiplier = Number(multiplier);
-        const intKey = Number(key)
+        const intKey = Number(key);
         const result = Affine.decrypt(inputText, intMultiplier, intKey);
         console.log(result);
         setOutput(result);

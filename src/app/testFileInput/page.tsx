@@ -31,13 +31,13 @@ const TestFileInput = () => {
   // const [fileType2, setFileType2] = useState<string>("");
   const [fileName, setFileName] = useState<string>("");
   // const [fileName2, setFileName2] = useState<string>("");
-  const [fileBaseString, setFileBaseString] = useState<string>("");
+  const [fileBaseString, setFileBaseString] = useState<ArrayBuffer>();
   // const [fileBaseString2, setFileBaseString2] = useState<string>("");
 
   const handleFileRead = async (e: ProgressEvent<FileReader>) => {
     console.log(e.target);
     const content = e.target?.result;
-    setFileBaseString(content as string);
+    setFileBaseString(content as ArrayBuffer);
     console.log(content);
   };
 
@@ -63,7 +63,7 @@ const TestFileInput = () => {
       setFileType(e.target.files[0].type);
       const reader = new FileReader();
       reader.onloadend = handleFileRead;
-      reader.readAsDataURL(e.target.files[0]);
+      reader.readAsArrayBuffer(e.target.files[0]);
     }
   };
 
@@ -103,16 +103,24 @@ const TestFileInput = () => {
   //   //  element.click();
   // };
 
-  const downloadFile = () => {
-    console.log(fileType, fileBaseString, fileName);
-    const linkSource = `data:${fileType};base64,${fileBaseString}`;
-    const downloadLink = document.createElement("a");
-    document.body.appendChild(downloadLink);
+  // const downloadFile = () => {
+  //   console.log(fileType, fileBaseString, fileName);
+  //   const linkSource = `data:${fileType};base64,${fileBaseString}`;
+  //   const downloadLink = document.createElement("a");
+  //   document.body.appendChild(downloadLink);
 
-    downloadLink.href = linkSource;
-    downloadLink.target = "_self";
-    downloadLink.download = fileName;
-    downloadLink.click();
+  //   downloadLink.href = linkSource;
+  //   downloadLink.target = "_self";
+  //   downloadLink.download = fileName;
+  //   downloadLink.click();
+  // };
+
+  const downloadFile = () => {
+    console.log(fileBaseString);
+    const file = new Blob([fileBaseString as ArrayBuffer], {
+      type: fileType,
+    });
+    saveAs(file, fileName);
   };
 
   return (
