@@ -120,7 +120,10 @@ const Form = () => {
   };
 
   const inputAndKeyInputed = () => {
-    if (formData.cipher === "Extended Vigenere Cipher" && formData.inputType === "file") {
+    if (
+      formData.cipher === "Extended Vigenere Cipher" &&
+      formData.inputType === "file"
+    ) {
       if (formData.key === "") {
         setKeyError("Key cannot be empty");
         return false;
@@ -128,17 +131,16 @@ const Form = () => {
         setInputError("Input cannot be empty");
         return false;
       }
-    } else
-      if (formData.inputText == "") {
-        setInputError("Input cannot be empty");
-        return false;
-      } else if (formData.key == "") {
-        setKeyError("Key cannot be empty");
-        return false;
-      } else {
-        setInputError("");
-        setKeyError("");
-      }
+    } else if (formData.inputText == "") {
+      setInputError("Input cannot be empty");
+      return false;
+    } else if (formData.key == "") {
+      setKeyError("Key cannot be empty");
+      return false;
+    } else {
+      setInputError("");
+      setKeyError("");
+    }
     if (formData.cipher === "Affine Cipher") {
       const parsedKey = parseInt(formData.key);
       if (!isNaN(parsedKey)) {
@@ -199,7 +201,6 @@ const Form = () => {
 
   // fileBaseString
   const [fileType, setFileType] = useState<string>("");
-
 
   // file Array Buffer
   const [fileBaseString, setFileBaseString] = useState<ArrayBuffer>();
@@ -308,8 +309,9 @@ const Form = () => {
                   type="text"
                   name="inputText"
                   id="input"
-                  className={`${formData.inputType != "text" && "hidden"} ${inputError == "" ? "border-[#BEAD62]" : "border-red-500"
-                    } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                  className={`${formData.inputType != "text" && "hidden"} ${
+                    inputError == "" ? "border-[#BEAD62]" : "border-red-500"
+                  } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                   onChange={handleFormChange}
                   value={formData.inputText}
                 ></input>
@@ -320,8 +322,9 @@ const Form = () => {
                     type="file"
                     id="input"
                     // accept=".txt"
-                    className={`${formData.inputType != "file" && "hidden"} ${inputError == "" ? "border-[#cabc7d]" : "border-red-500"
-                      }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                    className={`${formData.inputType != "file" && "hidden"} ${
+                      inputError == "" ? "border-[#cabc7d]" : "border-red-500"
+                    }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                     onChange={handleAnyFileChange}
                   ></input>
                 ) : (
@@ -329,8 +332,9 @@ const Form = () => {
                     type="file"
                     id="input"
                     accept=".txt"
-                    className={`${formData.inputType != "file" && "hidden"} ${inputError == "" ? "border-[#cabc7d]" : "border-red-500"
-                      }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                    className={`${formData.inputType != "file" && "hidden"} ${
+                      inputError == "" ? "border-[#cabc7d]" : "border-red-500"
+                    }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                     onChange={handleFileChange}
                   ></input>
                 )}
@@ -351,10 +355,11 @@ const Form = () => {
                   <input
                     id="multiplier"
                     name="multiplier"
-                    className={`${multiplierError == ""
-                      ? "border-[#BEAD62]"
-                      : "border-red-500"
-                      } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                    className={`${
+                      multiplierError == ""
+                        ? "border-[#BEAD62]"
+                        : "border-red-500"
+                    } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                     onChange={handleFormChange}
                   ></input>
                   <i className="text-red-500">{multiplierError}</i>
@@ -375,8 +380,9 @@ const Form = () => {
                 <input
                   id="key"
                   name="key"
-                  className={`${keyError == "" ? "border-[#BEAD62]" : "border-red-500"
-                    } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                  className={`${
+                    keyError == "" ? "border-[#BEAD62]" : "border-red-500"
+                  } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                   onChange={handleFormChange}
                 ></input>
                 <i className="text-red-500">{keyError}</i>
@@ -426,7 +432,8 @@ const Form = () => {
           </div>
         </div>
 
-        {formData.inputType === "file" && formData.cipher !== "Extended Vigenere Cipher" ? (
+        {formData.inputType === "file" &&
+        formData.cipher !== "Extended Vigenere Cipher" ? (
           <>
             <div className="flex w-full h-12 my-12">
               <div className="bg-[#319B76] grow"></div>
@@ -451,7 +458,7 @@ const Form = () => {
           <div className="bg-[#319B76] grow"></div>
         </div>
         {formData.cipher === "Extended Vigenere Cipher" &&
-          formData.inputType === "file" ? (
+        formData.inputType === "file" ? (
           <button
             className="my-8 bg-[#CABC7D] rounded-lg px-12 py-2 text-white hover:bg-[#A89A5B]"
             onClick={downloadAnyFile}
@@ -460,8 +467,11 @@ const Form = () => {
           </button>
         ) : (
           <>
-            <div className="w-fit sm:w-1/2 border-[#4B4737] border-2 min-h-32 rounded-xl p-4 text-[#4B4737]">
-              {output}
+            <div
+              className="w-fit sm:w-1/2 border-[#4B4737] border-2 min-h-32 rounded-xl p-4 text-[#4B4737]"
+              style={{ overflowWrap: "break-word" }}
+            >
+              <p>{output}</p>
             </div>
             <button
               className="my-8 bg-[#CABC7D] rounded-lg px-12 py-2 text-white hover:bg-[#A89A5B]"
@@ -470,12 +480,12 @@ const Form = () => {
               Download
             </button>
           </>
-
         )}
 
-        {formData.inputType === "file" && formData.cipher === "Extended Vigenere Cipher" ? (
-          <></>)
-          :
+        {formData.inputType === "file" &&
+        formData.cipher === "Extended Vigenere Cipher" ? (
+          <></>
+        ) : (
           <>
             <div className="flex w-full h-12 my-12">
               <div className="bg-[#319B76] grow"></div>
@@ -484,8 +494,11 @@ const Form = () => {
               </div>
               <div className="bg-[#319B76] grow"></div>
             </div>
-            <div className="w-full sm:w-1/2 border-[#4B4737] border-2 min-h-32 rounded-xl p-4 text-[#4B4737]">
-              {output64}
+            <div
+              className="w-full sm:w-1/2 border-[#4B4737] border-2 min-h-32 rounded-xl p-4 text-[#4B4737]"
+              style={{ overflowWrap: "break-word" }}
+            >
+              <p>{output64}</p>
             </div>
 
             <button
@@ -495,91 +508,89 @@ const Form = () => {
               Download
             </button>
           </>
-
-        }
+        )}
       </div>
     </div>
-
-      );
+  );
 };
 
-      export default Form;
+export default Form;
 
 // const encode = () => {
-        //   if (inputAndKeyInputed()) {
-        //     console.log(formData.inputText, formData.key);
-        //     if (formData.cipher === "Vigenere Cipher") {
-        //       console.log(formData.cipher);
-        //       const result = VigenereCipher.encrypt(formData.inputText, formData.key);
-        //       console.log(result);
-        //       setOutput(result);
-        //     }
-        //     // Playfair Cipher - Text
-        //     else if (formData.cipher === "Playfair Cipher") {
-        //       console.log(formData.cipher);
-        //       const result = PlayFair.encrypt(formData.inputText, formData.key);
-        //       console.log(result);
-        //       setOutput(result);
-        //     }
-        //     // Product Cipher - Text
-        //     else if (formData.cipher === "Product Cipher") {
-        //       console.log(formData.cipher);
-        //       const result = ProductCipher.encyrpt(formData.inputText, formData.key);
-        //       console.log(result);
-        //       setOutput(result);
-        //     }
-        //   }
-        //   // Vigenere Cipher - Text
-        // };
+//   if (inputAndKeyInputed()) {
+//     console.log(formData.inputText, formData.key);
+//     if (formData.cipher === "Vigenere Cipher") {
+//       console.log(formData.cipher);
+//       const result = VigenereCipher.encrypt(formData.inputText, formData.key);
+//       console.log(result);
+//       setOutput(result);
+//     }
+//     // Playfair Cipher - Text
+//     else if (formData.cipher === "Playfair Cipher") {
+//       console.log(formData.cipher);
+//       const result = PlayFair.encrypt(formData.inputText, formData.key);
+//       console.log(result);
+//       setOutput(result);
+//     }
+//     // Product Cipher - Text
+//     else if (formData.cipher === "Product Cipher") {
+//       console.log(formData.cipher);
+//       const result = ProductCipher.encyrpt(formData.inputText, formData.key);
+//       console.log(result);
+//       setOutput(result);
+//     }
+//   }
+//   // Vigenere Cipher - Text
+// };
 
-        // const decode = () => {
-        //   console.log(formData.inputText, formData.key);
-        //   // Vigenere Cipher - Text
-        //   if (
-        //     formData.cipher === "Vigenere Cipher" &&
-        //     formData.inputType === "text"
-        //   ) {
-        //     console.log(formData.cipher);
-        //     const result = VigenereCipher.decrypt(formData.inputText, formData.key);
-        //     console.log(result);
-        //     setOutput(result);
-        //   }
-        //   // Playfair Cipher - Text
-        //   else if (
-        //     formData.cipher === "Playfair Cipher" &&
-        //     formData.inputType === "text"
-        //   ) {
-        //     console.log(formData.cipher);
-        //     const result = PlayFair.decrypt(formData.inputText, formData.key);
-        //     console.log(result);
-        //     setOutput(result);
-        //   }
-        //   // Product Cipher - Text
-        //   else if (
-        //     formData.cipher === "Product Cipher" &&
-        //     formData.inputType === "text"
-        //   ) {
-        //     console.log(formData.cipher);
-        //     const result = ProductCipher.decrypt(formData.inputText, formData.key);
-        //     console.log(result);
-        //     setOutput(result);
-        //   }
-        //   if (formData.inputType == "file" && formData.cipher == "Vigenere Cipher") {
-        //     const result = VigenereCipher.encrypt(formData.inputText, formData.key);
-        //     console.log(result);
-        //     setOutput(result);
-        //   }
-        // };
+// const decode = () => {
+//   console.log(formData.inputText, formData.key);
+//   // Vigenere Cipher - Text
+//   if (
+//     formData.cipher === "Vigenere Cipher" &&
+//     formData.inputType === "text"
+//   ) {
+//     console.log(formData.cipher);
+//     const result = VigenereCipher.decrypt(formData.inputText, formData.key);
+//     console.log(result);
+//     setOutput(result);
+//   }
+//   // Playfair Cipher - Text
+//   else if (
+//     formData.cipher === "Playfair Cipher" &&
+//     formData.inputType === "text"
+//   ) {
+//     console.log(formData.cipher);
+//     const result = PlayFair.decrypt(formData.inputText, formData.key);
+//     console.log(result);
+//     setOutput(result);
+//   }
+//   // Product Cipher - Text
+//   else if (
+//     formData.cipher === "Product Cipher" &&
+//     formData.inputType === "text"
+//   ) {
+//     console.log(formData.cipher);
+//     const result = ProductCipher.decrypt(formData.inputText, formData.key);
+//     console.log(result);
+//     setOutput(result);
+//   }
+//   if (formData.inputType == "file" && formData.cipher == "Vigenere Cipher") {
+//     const result = VigenereCipher.encrypt(formData.inputText, formData.key);
+//     console.log(result);
+//     setOutput(result);
+//   }
+// };
 
-        function ab2str(buf: ArrayBuffer) {
-          return String.fromCharCode.apply(null, new Uint16Array(buf) as any);
-        }
+function ab2str(buf: ArrayBuffer) {
+  return String.fromCharCode.apply(null, new Uint16Array(buf) as any);
+}
 
 function str2ab(str: string) {
   var buf = new ArrayBuffer(str.length * 2); // 2 bytes for each char
-      var bufView = new Uint16Array(buf);
-      for (var i = 0, strLen = str.length; i < strLen; i++) {
-        bufView[i] = str.charCodeAt(i);
+  var bufView = new Uint16Array(buf);
+  for (var i = 0, strLen = str.length; i < strLen; i++) {
+    bufView[i] = str.charCodeAt(i);
   }
-      return buf;
+  return buf;
 }

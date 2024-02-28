@@ -67,7 +67,6 @@ const tranposeMatriksResult = (matrix: string[][], key: string): string => {
       result += matrix[row][permutation.indexOf(permutKey)];
     }
   }
-  result = result.split(" ").join("");
   return result;
 };
 
@@ -137,7 +136,8 @@ const ProductCipher = {
     return Result;
   },
   decrypt: (input: string, key: string) => {
-    const formatedInput = input.split(" ").join("");
+    // const formatedInput = input.split(" ").join("");
+    const formatedInput = input;
     // Trim key
     let formatedKey = CleansingAlphabet(key.split(" ").join(""));
     if (formatedKey.length > formatedInput.length) {
