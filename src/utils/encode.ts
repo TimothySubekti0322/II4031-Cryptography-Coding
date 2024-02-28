@@ -17,7 +17,9 @@ const encode = (
   fileBaseString: ArrayBufferLike | undefined,
   setOutput: React.Dispatch<React.SetStateAction<string>>,
   setOutput64: React.Dispatch<React.SetStateAction<string>>,
-  setFileBaseString: React.Dispatch<React.SetStateAction<ArrayBuffer | undefined>>
+  setFileBaseString: React.Dispatch<
+    React.SetStateAction<ArrayBuffer | undefined>
+  >
 ) => {
   // console.log("fileBaseString = ", fileBaseString);
   if (cipher === "Extended Vigenere Cipher" && inputType === "file") {
@@ -33,7 +35,6 @@ const encode = (
       setFileBaseString(result);
     }
   } else {
-
     // console.log(fileBaseString.length);
     if (inputAndKeyInputed()) {
       console.log(inputText, key);
