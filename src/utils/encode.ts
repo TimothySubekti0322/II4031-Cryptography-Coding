@@ -13,9 +13,16 @@ const encode = (
   key: string,
   cipher: string,
   multiplier: string,
+  fileBaseString: ArrayBufferLike | undefined,
   setOutput: React.Dispatch<React.SetStateAction<string>>,
   setOutput64: React.Dispatch<React.SetStateAction<string>>
 ) => {
+  console.log("fileBaseString = ", fileBaseString);
+  if (typeof fileBaseString !== "undefined") {
+    const view = new Uint8Array(fileBaseString);
+    console.log(view);
+  }
+  // console.log(fileBaseString.length);
   if (inputAndKeyInputed()) {
     console.log(inputText, key);
     if (cipher === "Vigenere Cipher") {

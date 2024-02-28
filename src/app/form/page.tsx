@@ -138,18 +138,16 @@ const Form = () => {
         const parsedMult = parseInt(formData.multiplier);
         if (!isNaN(parsedMult)) {
           if (ModInv.modInv(Number(formData.multiplier), 26) === -1) {
-            setMultiplierError("Multiplier must be a number co-prime to 26")
+            setMultiplierError("Multiplier must be a number co-prime to 26");
           } else {
             setMultiplierError("");
           }
         } else {
-          setMultiplierError("Multiplier must be a number co-prime to 26")
+          setMultiplierError("Multiplier must be a number co-prime to 26");
         }
-
       } else {
-        setKeyError("Key must be a number")
+        setKeyError("Key must be a number");
       }
-
     }
     return true;
   };
@@ -193,14 +191,16 @@ const Form = () => {
   // fileBaseString
   const [fileType, setFileType] = useState<string>("");
 
+
   // file Array Buffer
-  const [fileBaseString, setFileBaseString] = useState<string>("");
+  const [fileBaseString, setFileBaseString] = useState<ArrayBuffer>();
 
   const handleAnyFileRead = async (e: ProgressEvent<FileReader>) => {
     console.log(e.target);
     const content = e.target?.result;
-    setFileBaseString(content as string);
+    setFileBaseString(content as ArrayBuffer);
     console.log(content);
+    console.log("content as string = ", content as string);
   };
 
   const handleAnyFileChange = async (
@@ -218,7 +218,8 @@ const Form = () => {
   };
 
   const downloadAnyFile = () => {
-    const file = new Blob([fileBaseString], {
+    console.log(fileBaseString);
+    const file = new Blob([fileBaseString as ArrayBuffer], {
       type: fileType,
     });
     saveAs(file, fileName);
@@ -298,8 +299,9 @@ const Form = () => {
                   type="text"
                   name="inputText"
                   id="input"
-                  className={`${formData.inputType != "text" && "hidden"} ${inputError == "" ? "border-[#BEAD62]" : "border-red-500"
-                    } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                  className={`${formData.inputType != "text" && "hidden"} ${
+                    inputError == "" ? "border-[#BEAD62]" : "border-red-500"
+                  } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                   onChange={handleFormChange}
                   value={formData.inputText}
                 ></input>
@@ -310,8 +312,9 @@ const Form = () => {
                     type="file"
                     id="input"
                     // accept=".txt"
-                    className={`${formData.inputType != "file" && "hidden"} ${inputError == "" ? "border-[#cabc7d]" : "border-red-500"
-                      }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                    className={`${formData.inputType != "file" && "hidden"} ${
+                      inputError == "" ? "border-[#cabc7d]" : "border-red-500"
+                    }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                     onChange={handleAnyFileChange}
                   ></input>
                 ) : (
@@ -319,8 +322,9 @@ const Form = () => {
                     type="file"
                     id="input"
                     accept=".txt"
-                    className={`${formData.inputType != "file" && "hidden"} ${inputError == "" ? "border-[#cabc7d]" : "border-red-500"
-                      }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                    className={`${formData.inputType != "file" && "hidden"} ${
+                      inputError == "" ? "border-[#cabc7d]" : "border-red-500"
+                    }  bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                     onChange={handleFileChange}
                   ></input>
                 )}
@@ -329,8 +333,7 @@ const Form = () => {
               </div>
             </div>
 
-            {formData.cipher === "Affine Cipher"
-              ?
+            {formData.cipher === "Affine Cipher" ? (
               <div className="flex items-center m-3">
                 <label
                   htmlFor="multiplier"
@@ -342,16 +345,19 @@ const Form = () => {
                   <input
                     id="multiplier"
                     name="multiplier"
-                    className={`${multiplierError == "" ? "border-[#BEAD62]" : "border-red-500"
-                      } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                    className={`${
+                      multiplierError == ""
+                        ? "border-[#BEAD62]"
+                        : "border-red-500"
+                    } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                     onChange={handleFormChange}
                   ></input>
                   <i className="text-red-500">{multiplierError}</i>
                 </div>
               </div>
-              :
+            ) : (
               <div></div>
-            }
+            )}
 
             <div className="flex items-center m-3">
               <label
@@ -364,8 +370,9 @@ const Form = () => {
                 <input
                   id="key"
                   name="key"
-                  className={`${keyError == "" ? "border-[#BEAD62]" : "border-red-500"
-                    } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
+                  className={`${
+                    keyError == "" ? "border-[#BEAD62]" : "border-red-500"
+                  } bg-[#fcf6e0] border-2  text-[#393432] text-sm rounded-lg focus:ring-[#E18679] focus:border-[#E18679] block w-full p-2.5`}
                   onChange={handleFormChange}
                 ></input>
                 <i className="text-red-500">{keyError}</i>
@@ -382,6 +389,7 @@ const Form = () => {
                     formData.key,
                     formData.cipher,
                     formData.multiplier,
+                    fileBaseString,
                     setOutput,
                     setOutput64
                   )
@@ -409,23 +417,22 @@ const Form = () => {
           </div>
         </div>
 
-        {
-          formData.inputType === "file" ?
-            <>
-              <div className="flex w-full h-12 my-12">
-                <div className="bg-[#319B76] grow"></div>
-                <div className="bg-[#fcf6e0] flex flex-col items-center justify-center w-60">
-                  <h1 className="text-black font-bold">Plaintext</h1>
-                </div>
-                <div className="bg-[#319B76] grow"></div>
+        {formData.inputType === "file" ? (
+          <>
+            <div className="flex w-full h-12 my-12">
+              <div className="bg-[#319B76] grow"></div>
+              <div className="bg-[#fcf6e0] flex flex-col items-center justify-center w-60">
+                <h1 className="text-black font-bold">Plaintext</h1>
               </div>
-              <div className="w-full sm:w-1/2 border-[#4B4737] border-2 min-h-32 rounded-xl p-4 text-[#4B4737]">
-                {formData.inputText}
-              </div>
-            </>
-            :
-            <></>
-        }
+              <div className="bg-[#319B76] grow"></div>
+            </div>
+            <div className="w-full sm:w-1/2 border-[#4B4737] border-2 min-h-32 rounded-xl p-4 text-[#4B4737]">
+              {formData.inputText}
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
 
         <div className="flex w-full h-12 my-12">
           <div className="bg-[#319B76] grow"></div>
@@ -438,7 +445,7 @@ const Form = () => {
           {output}
         </div>
         {formData.cipher === "Extended Vigenere Cipher" &&
-          formData.inputType === "file" ? (
+        formData.inputType === "file" ? (
           <button
             className="my-8 bg-[#CABC7D] rounded-lg px-12 py-2 text-white hover:bg-[#A89A5B]"
             onClick={downloadAnyFile}
@@ -470,8 +477,6 @@ const Form = () => {
         >
           Download
         </button>
-
-
       </div>
     </div>
   );
@@ -544,3 +549,16 @@ export default Form;
 //     setOutput(result);
 //   }
 // };
+
+function ab2str(buf: ArrayBuffer) {
+  return String.fromCharCode.apply(null, new Uint16Array(buf) as any);
+}
+
+function str2ab(str: string) {
+  var buf = new ArrayBuffer(str.length * 2); // 2 bytes for each char
+  var bufView = new Uint16Array(buf);
+  for (var i = 0, strLen = str.length; i < strLen; i++) {
+    bufView[i] = str.charCodeAt(i);
+  }
+  return buf;
+}
