@@ -41,7 +41,6 @@ const encode = (
       // setOutput(atob(result));
       // setOutput64(result);
       setFileBaseString(result);
-      setEncodeLoading(false);
     }
   } else {
     // console.log(fileBaseString.length);
@@ -106,6 +105,7 @@ const encode = (
       }
     }
   }
+  setEncodeLoading(false);
 };
 
 export default encode;

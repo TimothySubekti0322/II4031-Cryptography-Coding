@@ -135,9 +135,7 @@ const Form = () => {
         formData.cipher === "RC4") &&
       formData.inputType === "file"
     ) {
-      console.log("Masuk sini");
       if (formData.key === "") {
-        console.log("Key cannot be empty");
         setKeyError("Key cannot be empty");
         return false;
       } else if (fileBaseString === undefined) {
@@ -151,7 +149,6 @@ const Form = () => {
       setKeyError("Key cannot be empty");
       return false;
     } else {
-      console.log("Input and Key No Error");
       setInputError("");
       setKeyError("");
     }
@@ -251,18 +248,6 @@ const Form = () => {
 
   // Encode is finished
   useEffect(() => {
-    console.log(
-      "formData.cipher = ",
-      formData.cipher,
-      " | formData.inputText = ",
-      formData.inputText,
-      " | formData.inputFile = ",
-      formData.inputFile,
-      " | formData.key = ",
-      formData.key,
-      " encodeLoading = ",
-      encodeLoading
-    );
     if (!encodeLoading && encodeLoading !== undefined && inputAndKeyInputed()) {
       toast.success("Encoding is finished!");
     }
