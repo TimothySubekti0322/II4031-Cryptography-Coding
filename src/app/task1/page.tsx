@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import encode from "../../utils/encode";
 import decode from "../../utils/decode";
@@ -73,6 +73,16 @@ const Form = () => {
   const [output, setOutput] = useState("");
   const [output64, setOutput64] = useState("");
 
+  // encode loading
+  const [encodeLoading, setEncodeLoading] = useState<boolean | undefined>(
+    undefined
+  );
+
+  // decode loading
+  const [decodeLoading, setDecodeLoading] = useState<boolean | undefined>(
+    undefined
+  );
+
   const handleFormChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -121,10 +131,13 @@ const Form = () => {
 
   const inputAndKeyInputed = () => {
     if (
-      formData.cipher === "Extended Vigenere Cipher" &&
+      (formData.cipher === "Extended Vigenere Cipher" ||
+        formData.cipher === "RC4") &&
       formData.inputType === "file"
     ) {
+      console.log("Masuk sini");
       if (formData.key === "") {
+        console.log("Key cannot be empty");
         setKeyError("Key cannot be empty");
         return false;
       } else if (fileBaseString === undefined) {
@@ -138,6 +151,7 @@ const Form = () => {
       setKeyError("Key cannot be empty");
       return false;
     } else {
+      console.log("Input and Key No Error");
       setInputError("");
       setKeyError("");
     }
@@ -235,6 +249,38 @@ const Form = () => {
     saveAs(file, fileName);
   };
 
+  // Encode is finished
+  useEffect(() => {
+    console.log(
+      "formData.cipher = ",
+      formData.cipher,
+      " | formData.inputText = ",
+      formData.inputText,
+      " | formData.inputFile = ",
+      formData.inputFile,
+      " | formData.key = ",
+      formData.key,
+      " encodeLoading = ",
+      encodeLoading
+    );
+    if (!encodeLoading && encodeLoading !== undefined && inputAndKeyInputed()) {
+      toast.success("Encoding is finished!");
+    }
+  }, [encodeLoading]);
+
+  // Decode is finished
+  useEffect(() => {
+    if (
+      !decodeLoading &&
+      decodeLoading !== undefined &&
+      inputError == "" &&
+      keyError == "" &&
+      multiplierError == ""
+    ) {
+      toast.success("Decoding is finished!");
+    }
+  }, [decodeLoading]);
+
   return (
     <div>
       <Toaster />
@@ -293,6 +339,7 @@ const Form = () => {
                 <option value={"Autokey Vigenere Cipher"}>
                   Autokey Vigenere Cipher
                 </option>
+                <option value={"RC4"}>RC4</option>
               </select>
             </div>
 
@@ -317,7 +364,8 @@ const Form = () => {
                 ></input>
                 {/* Form Input */}
 
-                {formData.cipher === "Extended Vigenere Cipher" ? (
+                {formData.cipher === "Extended Vigenere Cipher" ||
+                formData.cipher === "RC4" ? (
                   <input
                     type="file"
                     id="input"
@@ -391,9 +439,12 @@ const Form = () => {
 
             <div className="flex w-full gap-x-12 justify-center pt-4 font-bold">
               <button
-                className="bg-[#319B76] border-2 border-[#319B76] text-white text-md rounded-lg block w-60 p-2.5 hover:bg-[#067465] "
+                className={`${
+                  encodeLoading ? "opacity-50" : ""
+                } bg-[#319B76] border-2 border-[#319B76] text-white text-md rounded-lg block w-60 p-2.5 hover:bg-[#067465]`}
                 onClick={() =>
                   encode(
+                    setEncodeLoading,
                     inputAndKeyInputed,
                     formData.inputText,
                     formData.inputType,
@@ -406,13 +457,19 @@ const Form = () => {
                     setFileBaseString
                   )
                 }
+                disabled={encodeLoading}
               >
-                Encode
+                {encodeLoading ? (
+                  <span className="loading loading-spinner loading-md"></span>
+                ) : (
+                  "Encode"
+                )}
               </button>
               <button
                 className="bg-[#fcf6e0] border-2 border-[#319B76] text-[#319B76] text-md rounded-lg block w-60 p-2.5 hover:bg-[#319B76] hover:text-white"
                 onClick={() =>
                   decode(
+                    setDecodeLoading,
                     inputAndKeyInputed,
                     formData.inputText,
                     formData.inputType,
@@ -425,15 +482,21 @@ const Form = () => {
                     setFileBaseString
                   )
                 }
+                disabled={encodeLoading}
               >
-                Decode
+                {encodeLoading ? (
+                  <span className="loading loading-spinner loading-md"></span>
+                ) : (
+                  "Decode"
+                )}
               </button>
             </div>
           </div>
         </div>
 
         {formData.inputType === "file" &&
-        formData.cipher !== "Extended Vigenere Cipher" ? (
+        formData.cipher !== "Extended Vigenere Cipher" &&
+        formData.cipher !== "RC4" ? (
           <>
             <div className="flex w-full h-12 my-12">
               <div className="bg-[#319B76] grow"></div>
@@ -457,11 +520,14 @@ const Form = () => {
           </div>
           <div className="bg-[#319B76] grow"></div>
         </div>
-        {formData.cipher === "Extended Vigenere Cipher" &&
-        formData.inputType === "file" ? (
+        {formData.cipher === "Extended Vigenere Cipher" ||
+        (formData.cipher === "RC4" && formData.inputType === "file") ? (
           <button
-            className="my-8 bg-[#CABC7D] rounded-lg px-12 py-2 text-white hover:bg-[#A89A5B]"
+            className={`${
+              fileBaseString === undefined ? "opacity-50" : "hover:bg-[#A89A5B]"
+            } my-8 bg-[#CABC7D] rounded-lg px-12 py-2 text-white`}
             onClick={downloadAnyFile}
+            disabled={fileBaseString === undefined}
           >
             Download
           </button>
@@ -482,8 +548,9 @@ const Form = () => {
           </>
         )}
 
-        {formData.inputType === "file" &&
-        formData.cipher === "Extended Vigenere Cipher" ? (
+        {(formData.inputType === "file" &&
+          formData.cipher === "Extended Vigenere Cipher") ||
+        formData.cipher === "RC4" ? (
           <></>
         ) : (
           <>

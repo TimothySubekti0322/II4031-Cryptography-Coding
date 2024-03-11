@@ -6,8 +6,10 @@ import AffineCipher from "./Affine";
 import Affine from "./Affine";
 import AutoKeyVigenere from "./AutoKeyVigenere";
 import ExtendedVigenere from "./ExtendedVigenere";
+import RC4 from "./RC4";
 
 const encode = (
+  setEncodeLoading: React.Dispatch<React.SetStateAction<boolean | undefined>>,
   inputAndKeyInputed: () => boolean,
   inputText: string,
   inputType: string,
@@ -21,18 +23,25 @@ const encode = (
     React.SetStateAction<ArrayBuffer | undefined>
   >
 ) => {
+  setEncodeLoading(true);
   // console.log("fileBaseString = ", fileBaseString);
-  if (cipher === "Extended Vigenere Cipher" && inputType === "file") {
-    if (typeof fileBaseString !== "undefined") {
+  if (inputType === "file") {
+    if (typeof fileBaseString !== "undefined" && inputAndKeyInputed()) {
       const view = new Uint8Array(fileBaseString);
       console.log(view);
-
       console.log(cipher);
-      const result = ExtendedVigenere.encryptFile(view, key);
+
+      let result = new Uint8Array();
+      if (cipher === "Extended Vigenere Cipher") {
+        result = ExtendedVigenere.encryptFile(view, key);
+      } else if (cipher === "RC4") {
+        result = RC4.encryptFile(view, key);
+      }
       console.log("Encoded:", result);
       // setOutput(atob(result));
       // setOutput64(result);
       setFileBaseString(result);
+      setEncodeLoading(false);
     }
   } else {
     // console.log(fileBaseString.length);
@@ -81,11 +90,19 @@ const encode = (
       }
       // Extended Vigenere Cipher - Text
       else if (cipher === "Extended Vigenere Cipher") {
-        console.log(cipher);
+        // console.log(cipher);
         const result = ExtendedVigenere.encrypt(inputText, key);
-        console.log("Encoded:", result);
+        // console.log("Encoded:", result);
         setOutput(atob(result));
         setOutput64(result);
+      }
+      // RC4 Cipher - Text
+      else if (cipher === "RC4") {
+        console.log(cipher);
+        const result = RC4.encrypt(inputText, key);
+        console.log(result);
+        setOutput(result);
+        setOutput64(btoa(result));
       }
     }
   }
