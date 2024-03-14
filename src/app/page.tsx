@@ -30,12 +30,12 @@ export default function Home() {
         <div className="w-full flex flex-col items-center sm:flex-row sm:absolute sm:bottom-24 lg:pl-[30%] sm:gap-x-4 sm:pr-12 sm:pl-12 xl:bottom-12  2xl:pl-[35%] ">
           <Card
             title="Task 1"
-            description={temporaryDescriptionCard}
+            description="Dalam tugas pertama kali ini, kami membuat dan mengimplementasikan enkripsi serta dekripsi dari beberapa cypher klasik. Pengguna dapat memasukkan masukan berupa text atau file, melengkapi key, dan akan mendapatkan hasil enkripsi. Hal yang sama dapat dilakukan untuk dekripsi agar didapatkan pesan utama kembali."
             link="/task1"
           />
           <Card
             title="Task 2"
-            description={temporaryDescriptionCard}
+            description= "Tugas kedua kami adalah implementasi dari cypher modifikasi RC4 yang menggunakan Extended Vigenere Cipher untuk memodifikasi prosedur KSA. Pengguna dapat memasukkan masukan berupa text atau file, melengkapi key, dan akan mendapatkan hasil enkripsi. Hal yang sama dapat dilakukan untuk dekripsi agar didapatkan pesan utama kembali."
             link="/task2"
           />
           <Card

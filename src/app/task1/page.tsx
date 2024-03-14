@@ -7,15 +7,9 @@ import decode from "../../utils/decode";
 import { Toaster, toast } from "react-hot-toast";
 import ModInv from "@/utils/ModInv";
 import { saveAs } from "file-saver";
+import formDataTypes from "../components/formDataTypes";
 
-interface formDataTypes {
-  inputType: string;
-  cipher: string;
-  inputText: string;
-  inputFile: File | null;
-  key: string;
-  multiplier: string;
-}
+
 
 const Form = () => {
   // console.log(
@@ -269,7 +263,7 @@ const Form = () => {
   return (
     <div>
       <Toaster />
-      <Navbar />
+      <Navbar currPage="task 1" />
       <div className="w-full min-h-screen flex flex-col items-center justify-center bg-[#fcf6e0] pt-24">
         <div className="flex w-full h-12 my-8">
           <div className="bg-[#319B76] grow"></div>
