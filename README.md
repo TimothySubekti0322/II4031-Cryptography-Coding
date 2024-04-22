@@ -77,7 +77,7 @@ Now you can access **http://localhost:3000**
 ## Contributing
 
 - [Timothy Subekti](https://github.com/TimothySubekti0322) - 18221063
-- [Nadira Rahmananda Arifandi](https://github.com/yourusername) - 18221059
+- [Nadira Rahmananda Arifandi](https://github.com/nadiraaraa) - 18221059
 ## Deployment
 - Deployed on Vercel
 - Live URL : **https://ii-4031-kriptografi-koding.vercel.app/**
